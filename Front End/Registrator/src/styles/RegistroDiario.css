@@ -1,0 +1,84 @@
+/* RegistroDiario.css */
+
+.registro-diario-page {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .registro-diario-card {
+    background-color: var(--color-card);
+    padding: 2rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 550px;
+    border: 2px solid var(--color-primary);
+  }
+  
+  .registro-diario-card h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-primary);
+  }
+  
+  .registro-diario-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .registro-diario-form label {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+  
+  .registro-diario-form input,
+  .registro-diario-form select {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color 0.3s ease;
+  }
+  
+  .registro-diario-form input:focus,
+  .registro-diario-form select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+  }
+  
+  .registro-diario-form button {
+    padding: 0.75rem;
+    background-color: var(--color-btn);
+    color: var(--color-btn-text);
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .registro-diario-form button:hover {
+    background-color: var(--color-btn-hover);
+  }
+  
+  .geo-info {
+    font-size: 0.9rem;
+    color: green;
+    text-align: center;
+    margin-top: -0.5rem;
+  }
+  
+  .error-message {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  

@@ -1,35 +1,78 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import RegistroEmpleado from "./pages/RegistroEmpleado";
+import RegistroDiario from "./pages/RegistroDiario";
+import ControlDiario from "./pages/ControlDiario";
+import ValidacionJefeObra from "./pages/ValidacionJefeObra";
+import NominaRRHH from "./pages/NominaRRHH";
+import ListaEmpleados from "./pages/ListaEmpleados";
+
+import RutaProtegida from "./components/RutaProtegida";
+import LayoutProtegido from "./components/LayoutProtegido";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        {/* Ruta pública */}
+        <Route path="/" element={<Login />} />
+
+        {/* Rutas protegidas con Navbar */}
+        <Route element={<LayoutProtegido />}>
+          <Route
+            path="/registro-empleado"
+            element={
+              <RutaProtegida permitido={["rrhh"]}>
+                <RegistroEmpleado />
+              </RutaProtegida>
+            }
+          />
+          <Route
+            path="/registro-diario"
+            element={
+              <RutaProtegida permitido={["trabajador"]}>
+                <RegistroDiario />
+              </RutaProtegida>
+            }
+          />
+          <Route
+            path="/control-diario"
+            element={
+              <RutaProtegida permitido={["capataz"]}>
+                <ControlDiario />
+              </RutaProtegida>
+            }
+          />
+          <Route
+            path="/validacion-jefe"
+            element={
+              <RutaProtegida permitido={["jefe"]}>
+                <ValidacionJefeObra />
+              </RutaProtegida>
+            }
+          />
+          <Route
+            path="/nomina"
+            element={
+              <RutaProtegida permitido={["rrhh"]}>
+                <NominaRRHH />
+              </RutaProtegida>
+            }
+          />
+          <Route
+            path="/lista-empleados"
+            element={
+              <RutaProtegida permitido={["rrhh"]}>
+                <ListaEmpleados />
+              </RutaProtegida>
+            }
+          />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

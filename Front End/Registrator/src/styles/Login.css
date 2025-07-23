@@ -1,0 +1,115 @@
+/* Login.css */
+
+.login-page {
+    background-color: var(--color-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  
+  .login-card {
+    background-color: var(--color-card);
+    color: var(--color-text);
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 25px rgba(248, 196, 0, 0.4);
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  
+  
+  .login-logo {
+    width: 100px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: #f8c400;
+    text-shadow: 0 0 5px rgba(248, 196, 0, 0.6);
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .login-form label {
+    font-weight: 500;
+    color: #f1f1f1;
+    text-align: left;
+  }
+  .login-form input,
+.login-form select {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+  
+  .login-form input:focus,
+  .login-form select:focus {
+    border-color: #f8c400;
+    outline: none;
+  }
+  
+  .login-form button {
+    background-color: #f8c400;
+    border: none;
+    border-radius: 8px;
+    color: #1e1e1e;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .login-form button:hover {
+    background-color: #ffae00;
+    box-shadow: 0 0 10px #ffcc00;
+  }
+  
+  .error-message {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+  
+  button {
+    background-color: var(--color-btn);
+    color: var(--color-btn-text);
+  }
+  /* Botón de cambio de tema (solo en login) */
+.login-theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .login-theme-toggle button {
+    background-color: var(--color-btn);
+    color: var(--color-btn-text);
+    border: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-theme-toggle button:hover {
+    background-color: var(--color-btn-hover);
+  }
+  

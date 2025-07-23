@@ -1,0 +1,108 @@
+/* ValidacionJefeObra.css */
+
+.validacion-page {
+    background-color: var(--color-bg);
+    min-height: 100vh;
+    padding: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+  }
+  
+  .validacion-card {
+    background-color: var(--color-card);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 1200px;
+    border: 2px solid var(--color-primary);
+  }
+  
+  .validacion-card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+  }
+  
+  /* Filtro */
+  .filtro-toggle {
+    text-align: right;
+    margin-bottom: 1rem;
+  }
+  
+  .filtro-toggle select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+  
+  /* Tabla */
+  .validacion-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .validacion-table th,
+  .validacion-table td {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  
+  .validacion-table th {
+    background-color: var(--color-bg);
+    font-weight: 600;
+  }
+  
+  .detalle-row {
+    background-color: var(--color-bg);
+    font-size: 0.9rem;
+  }
+  
+  .detalle-row td {
+    padding: 0.5rem 1rem;
+  }
+  
+  /* Botones */
+  .btn {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: var(--color-btn);
+    color: var(--color-btn-text);
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: var(--color-btn-hover);
+  }
+  .detalle-trabajadores {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background-color: var(--color-card);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .detalle-trabajadores th,
+  .detalle-trabajadores td {
+    padding: 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+    color: var(--color-text);
+  }
+  
+  .detalle-trabajadores th {
+    background-color: var(--color-bg);
+    font-weight: 600;
+  }
+  

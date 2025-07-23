@@ -1,0 +1,34 @@
+:root {
+    --color-bg: #ffffff;
+    --color-text: #1e1e1e;
+    --color-primary: #f8c400;
+    --color-card: #f9f9f9;
+    --color-border: #cccccc;
+    --color-btn: #f8c400;
+    --color-btn-text: #1e1e1e;
+    --color-btn-hover: #ffae00;
+    --navbar-bg: #ffffff;
+    --navbar-text: #1e1e1e;
+  }
+  
+  .theme-dark {
+    --color-bg: #1e1e1e;
+    --color-text: #f1f1f1;
+    --color-primary: #f8c400;
+    --color-card: #2c2c2c;
+    --color-border: #333333;
+    --color-btn: #f8c400;
+    --color-btn-text: #1e1e1e;
+    --color-btn-hover: #ffae00;
+    --navbar-bg: #1e1e1e;
+    --navbar-text: #f1f1f1;
+  }
+  
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  

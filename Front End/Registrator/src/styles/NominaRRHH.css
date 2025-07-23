@@ -1,0 +1,88 @@
+/* NominaRRHH.css */
+
+.nomina-page {
+    background-color: var(--color-bg);
+    min-height: 100vh;
+    padding: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .nomina-card {
+    background-color: var(--color-card);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-primary);
+    width: 100%;
+    max-width: 1100px;
+    overflow-x: auto;
+  }
+  
+  .nomina-card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+  }
+  
+  .nomina-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .nomina-table th,
+  .nomina-table td {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  
+  .nomina-table th {
+    background-color: var(--color-bg);
+    font-weight: 600;
+  }
+  
+  .nomina-nombre {
+    color: var(--color-primary);
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .nomina-nombre:hover {
+    text-decoration: underline;
+  }
+  
+  /* Detalle desplegable */
+  .detalle-tr {
+    background-color: var(--color-bg);
+    font-size: 0.9rem;
+  }
+  
+  .detalle-tr td {
+    padding: 0.5rem 1rem;
+  }
+  .detalle-nomina {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-collapse: collapse;
+    background-color: var(--color-card);
+    font-size: 0.95rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .detalle-nomina th,
+  .detalle-nomina td {
+    padding: 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+    color: var(--color-text);
+  }
+  
+  .detalle-nomina th {
+    background-color: var(--color-bg);
+    font-weight: 600;
+  }
+  
