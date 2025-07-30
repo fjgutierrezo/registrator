@@ -21,7 +21,7 @@ public class DataInitializer {
         if (usuarioRepository.count() > 0) return; // No volver a cargar si ya existen datos
 
         List<Usuario> empleados = List.of(
-                new Usuario("Carlos", "Andrés", "Gómez", "López", 12, 5, 1987, "100000001", "3001112233",
+                new Usuario("Carlos", "Andrés", "Gómez", "López", 12, 5, 1987, "123456789", "3001112233",
                         "Calle 10 #45-23", "La Floresta", "SURA", "Sanitas", "Colfondos", "Porvenir",
                         "M", "32", "42", 2, "O+", "Bancolombia", "100023456789", "Ahorros",
                         "Laura Gómez", "3002233445", "jefe", "pass123"),

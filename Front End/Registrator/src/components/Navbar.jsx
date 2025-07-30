@@ -18,7 +18,11 @@ function Navbar() {
       { path: "/lista-empleados", label: "Ver Empleados" },
     ],
     trabajador: [{ path: "/registro-diario", label: "Registro Diario" }],
-    capataz: [{ path: "/control-diario", label: "Control Diario" }],
+    capataz: [
+      { path: "/control-diario", label: "Control Diario" },
+      { path: "/crear-frente", label: "Crear Frente" }, 
+    ],
+    
     jefe: [{ path: "/validacion-jefe", label: "Validación" }],
   };
 

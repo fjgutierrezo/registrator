@@ -1,37 +1,15 @@
-package com.TMF.registrator.model;
+package com.TMF.registrator.dto;
 
-import jakarta.persistence.*;
-import java.util.UUID;
-
-@Entity
-@Table(name = "frente_trabajo")
-public class FrenteTrabajo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+public class FrenteTrabajoRequest {
 
     private String nombre;
-
     private String centroCosto;
-
     private double latitudCentro;
-
     private double longitudCentro;
-
     private double radioMetros;
-
     private String creadoPorCedulaCapataz;
 
     // --- Getters y Setters ---
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -80,4 +58,5 @@ public class FrenteTrabajo {
     public void setCreadoPorCedulaCapataz(String creadoPorCedulaCapataz) {
         this.creadoPorCedulaCapataz = creadoPorCedulaCapataz;
     }
+
 }

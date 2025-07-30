@@ -8,6 +8,8 @@ import ControlDiario from "./pages/ControlDiario";
 import ValidacionJefeObra from "./pages/ValidacionJefeObra";
 import NominaRRHH from "./pages/NominaRRHH";
 import ListaEmpleados from "./pages/ListaEmpleados";
+import CrearFrente from "./pages/CrearFrente";
+
 
 import RutaProtegida from "./components/RutaProtegida";
 import LayoutProtegido from "./components/LayoutProtegido";
@@ -68,6 +70,14 @@ function App() {
                 <ListaEmpleados />
               </RutaProtegida>
             }
+          />
+          <Route 
+            path="/crear-frente" 
+            element={
+            <RutaProtegida permitido={["capataz"]}>
+                <CrearFrente />
+            </RutaProtegida>
+            } 
           />
         </Route>
       </Routes>

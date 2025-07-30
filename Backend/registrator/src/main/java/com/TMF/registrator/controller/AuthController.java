@@ -1,5 +1,4 @@
 package com.TMF.registrator.controller;
-
 import com.TMF.registrator.model.Usuario;
 import com.TMF.registrator.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*") // Permite recibir peticiones desde el frontend (React)
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AuthController {
 
     private final UsuarioService usuarioService;
