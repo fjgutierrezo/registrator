@@ -1,70 +1,147 @@
+/* === CREAR FRENTE (Estilo unificado con ControlDiario.css) === */
+
+/* Contenedor principal */
 .crear-frente-container {
-    background-color: var(--color-bg);
-    min-height: 100vh;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  
-  .crear-frente-card {
-    background-color: var(--color-card);
-    border: 2px solid var(--color-primary);
-    border-radius: 16px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 800px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  }
-  
-  .crear-frente-card h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-  }
-  
-  .crear-frente-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .crear-frente-form input {
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    font-size: 1rem;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-  }
-  
-  .crear-frente-form button {
-    padding: 0.75rem;
-    background-color: var(--color-btn);
-    color: var(--color-btn-text);
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .crear-frente-form button:hover {
-    background-color: var(--color-btn-hover);
-  }
-  
-  .mapa-container {
-    margin-top: 1rem;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .crear-frente-mensaje {
-    text-align: center;
-    margin-top: 1rem;
-    font-weight: bold;
-    color: var(--color-primary);
-  }
-  
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Card interna */
+.crear-frente-card {
+  padding: 1rem 2rem 2rem;
+}
+
+.crear-frente-card h2,
+.crear-frente-card h3,
+.crear-frente-card h4 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Formulario */
+.crear-frente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.crear-frente-form input,
+.crear-frente-form-input,
+.buscar-frente-input {
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.crear-frente-form input:focus,
+.crear-frente-form-input:focus,
+.buscar-frente-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Botón principal */
+.crear-frente-form button {
+  background-color: var(--color-btn);
+  color: var(--color-btn-text);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.crear-frente-form button:hover {
+  background-color: var(--color-btn-hover);
+}
+
+/* Mapa */
+.mapa-container {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Mensajes */
+.crear-frente-mensaje {
+  margin: 1rem 0;
+  font-weight: 600;
+  min-height: 24px;
+  color: var(--color-primary);
+}
+
+/* Sección trabajadores */
+.trabajadores-section {
+  margin-top: 2rem;
+}
+
+/* Tabla frentes */
+.tabla-frentes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-card);
+}
+
+.tabla-frentes th,
+.tabla-frentes td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.tabla-frentes thead {
+  background-color: var(--color-bg);
+}
+
+.tabla-frentes tr:hover {
+  background-color: var(--color-primary);
+  color: var(--color-btn-text);
+  cursor: pointer;
+}
+
+/* Estado deshabilitado */
+.frente-apagado {
+  color: #888;
+  background-color: var(--color-bg);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Botones en tabla */
+.tabla-frentes button {
+  background-color: var(--color-btn);
+  color: var(--color-btn-text);
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tabla-frentes button:hover {
+  background-color: var(--color-btn-hover);
+}

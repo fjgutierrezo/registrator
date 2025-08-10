@@ -1,5 +1,7 @@
 package com.TMF.registrator.dto;
 
+import java.util.List;
+
 public class FrenteTrabajoRequest {
 
     private String nombre;
@@ -9,7 +11,6 @@ public class FrenteTrabajoRequest {
     private double radioMetros;
     private String creadoPorCedulaCapataz;
 
-    // --- Getters y Setters ---
 
     public String getNombre() {
         return nombre;

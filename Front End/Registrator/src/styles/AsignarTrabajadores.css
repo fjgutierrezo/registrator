@@ -1,0 +1,99 @@
+.asignar-container {
+    background-color: var(--color-bg);
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .asignar-card {
+    background-color: var(--color-card);
+    border: 2px solid var(--color-primary);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  }
+  
+  .asignar-card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+  }
+  
+  .buscadores-dobles {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .buscadores-dobles input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+  
+  .tabla-trabajadores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .tabla-trabajadores th,
+  .tabla-trabajadores td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  
+  .tabla-trabajadores tr:hover {
+    background-color: var(--color-primary);
+    color: white;
+    cursor: pointer;
+  }
+  
+  .lista-seleccionados {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  
+  .lista-seleccionados li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .asignar-mensaje {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+  
+  .asignar-card button {
+    padding: 0.75rem;
+    background-color: var(--color-btn);
+    color: var(--color-btn-text);
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .asignar-card button:hover {
+    background-color: var(--color-btn-hover);
+  }
+  

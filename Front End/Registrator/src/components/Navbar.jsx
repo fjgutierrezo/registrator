@@ -20,7 +20,8 @@ function Navbar() {
     trabajador: [{ path: "/registro-diario", label: "Registro Diario" }],
     capataz: [
       { path: "/control-diario", label: "Control Diario" },
-      { path: "/crear-frente", label: "Crear Frente" }, 
+      { path: "/crear-frente", label: "Crear Frente" },
+      { path: "/trabajador-frente", label: "Resgistrar Trabajador" }, 
     ],
     
     jefe: [{ path: "/validacion-jefe", label: "Validación" }],

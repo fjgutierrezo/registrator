@@ -113,6 +113,14 @@ public class RRHHController {
             return ResponseEntity.status(404).body(resultado);
         }
     }
+    @GetMapping("/trabajadores")
+    public List<Usuario> obtenerTrabajadores() {
+        return usuarioService.obtenerPorRol("Trabajador");
+    }
+  /*  @GetMapping("/trabajadores-disponibles")
+    public List<Usuario> obtenerTrabajadoresDisponibles() {
+        return usuarioService.obtenerTrabajadoresNoAsignados();
+    }*/
 
 
 }

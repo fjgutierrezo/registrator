@@ -104,7 +104,12 @@ public class UsuarioService {
         }
         return null;
     }
+    public List<Usuario> obtenerPorRol(String rol) {
+        return usuarioRepository.findByRol(rol);
+    }
 
-
+  /*  public List<Usuario> obtenerTrabajadoresNoAsignados() {
+        return usuarioRepository.findTrabajadoresNoAsignados("Trabajador");
+    }*/
 
 }

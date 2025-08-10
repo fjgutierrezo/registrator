@@ -34,7 +34,7 @@ public class DataInitializer {
                 new Usuario("Luis", "Alberto", "Martínez", "Ruiz", 25, 12, 1980, "100000003", "3104445566",
                         "Transversal 8 #12-90", "Boston", "Bolívar", "Salud Total", "Porvenir", "Colfondos",
                         "L", "34", "43", 3, "B+", "Banco de Bogotá", "100012345678", "Ahorros",
-                        "Ana Ruiz", "3101122334", "Recursos Humanos", "luis123"),
+                        "Ana Ruiz", "3101122334", "rrhh", "luis123"),
 
                 new Usuario("Andrea", "Paola", "Moreno", "García", 6, 4, 1995, "100000004", "3125556677",
                         "Calle 40 #50-20", "La América", "SURA", "Compensar", "Protección", "Cesantías Porvenir",
@@ -49,7 +49,7 @@ public class DataInitializer {
                 new Usuario("Diana", "Marcela", "López", "Torres", 30, 9, 1990, "100000006", "3147778899",
                         "Diagonal 35 #20-14", "Manrique", "Bolívar", "Famisanar", "Protección", "Cesantías Colpatria",
                         "M", "30", "39", 1, "A-", "Davivienda", "100089012345", "Ahorros",
-                        "Claudia Torres", "3144455667", "Recursos Humanos", "diana123"),
+                        "Claudia Torres", "3144455667", "RRHH", "diana123"),
 
                 new Usuario("Pedro", "Antonio", "Ríos", "Velásquez", 15, 11, 1985, "100000007", "3158889900",
                         "Av. 80 #75-30", "Robledo", "SURA", "Salud Total", "Colfondos", "Porvenir",

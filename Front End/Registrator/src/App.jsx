@@ -9,10 +9,9 @@ import ValidacionJefeObra from "./pages/ValidacionJefeObra";
 import NominaRRHH from "./pages/NominaRRHH";
 import ListaEmpleados from "./pages/ListaEmpleados";
 import CrearFrente from "./pages/CrearFrente";
-
-
 import RutaProtegida from "./components/RutaProtegida";
 import LayoutProtegido from "./components/LayoutProtegido";
+import AsignarTrabajadores from "./pages/AsignarTrabajadores";
 
 function App() {
   return (
@@ -76,6 +75,14 @@ function App() {
             element={
             <RutaProtegida permitido={["capataz"]}>
                 <CrearFrente />
+            </RutaProtegida>
+            } 
+          />
+          <Route 
+            path="/trabajador-frente" 
+            element={
+            <RutaProtegida permitido={["capataz"]}>
+                <AsignarTrabajadores/>
             </RutaProtegida>
             } 
           />
