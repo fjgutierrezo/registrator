@@ -21,7 +21,7 @@ function Navbar() {
     capataz: [
       { path: "/control-diario", label: "Control Diario" },
       { path: "/crear-frente", label: "Crear Frente" },
-      { path: "/trabajador-frente", label: "Resgistrar Trabajador" }, 
+      { path: "/trabajador-frente", label: "Registrar Trabajador" }, 
     ],
     
     jefe: [{ path: "/validacion-jefe", label: "Validación" }],

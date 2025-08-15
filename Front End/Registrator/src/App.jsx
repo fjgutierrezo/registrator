@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import RegistroEmpleado from "./pages/RegistroEmpleado";
 import RegistroDiario from "./pages/RegistroDiario";
-import ControlDiario from "./pages/ControlDiario";
+import ControlDiario from "./pages/ControlDiarioPendientes";
 import ValidacionJefeObra from "./pages/ValidacionJefeObra";
 import NominaRRHH from "./pages/NominaRRHH";
 import ListaEmpleados from "./pages/ListaEmpleados";

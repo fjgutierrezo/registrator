@@ -56,20 +56,22 @@
   border-color: var(--color-primary);
 }
 
-/* Botón principal */
+/* Botón principal (Crear Frente) */
 .crear-frente-form button {
   background-color: var(--color-btn);
   color: var(--color-btn-text);
   border: none;
-  padding: 0.75rem;
+  padding: 0.6rem 1rem; /* más pequeño */
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .crear-frente-form button:hover {
   background-color: var(--color-btn-hover);
+  transform: scale(1.02);
 }
 
 /* Mapa */
@@ -116,9 +118,9 @@
   background-color: var(--color-bg);
 }
 
+/* Resaltado sutil */
 .tabla-frentes tr:hover {
-  background-color: var(--color-primary);
-  color: var(--color-btn-text);
+  background-color: rgba(0, 0, 0, 0.05); /* gris muy suave */
   cursor: pointer;
 }
 
@@ -130,6 +132,12 @@
   opacity: 0.7;
 }
 
+.tabla-frentes .acciones {
+  display: flex;
+  justify-content: center;
+  gap: 8px; /* separación uniforme entre botones */
+}
+
 /* Botones en tabla */
 .tabla-frentes button {
   background-color: var(--color-btn);
@@ -139,9 +147,11 @@
   padding: 0.4rem 0.8rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .tabla-frentes button:hover {
   background-color: var(--color-btn-hover);
+  transform: scale(1.05);
 }

@@ -1,99 +1,151 @@
+/* === ASIGNAR TRABAJADORES (Estilo unificado con CrearFrente) === */
+
 .asignar-container {
-    background-color: var(--color-bg);
-    min-height: 100vh;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  
-  .asignar-card {
-    background-color: var(--color-card);
-    border: 2px solid var(--color-primary);
-    border-radius: 16px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 800px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  }
-  
-  .asignar-card h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-  }
-  
-  .buscadores-dobles {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .buscadores-dobles input {
-    flex: 1;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg);
-    color: var(--color-text);
-  }
-  
-  .tabla-trabajadores {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .tabla-trabajadores th,
-  .tabla-trabajadores td {
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text);
-  }
-  
-  .tabla-trabajadores tr:hover {
-    background-color: var(--color-primary);
-    color: white;
-    cursor: pointer;
-  }
-  
-  .lista-seleccionados {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
-  }
-  
-  .lista-seleccionados li {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    border-bottom: 1px solid var(--color-border);
-  }
-  
-  .asignar-mensaje {
-    text-align: center;
-    margin-top: 1rem;
-    font-weight: bold;
-    color: var(--color-primary);
-  }
-  
-  .asignar-card button {
-    padding: 0.75rem;
-    background-color: var(--color-btn);
-    color: var(--color-btn-text);
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-    margin-top: 1rem;
-  }
-  
-  .asignar-card button:hover {
-    background-color: var(--color-btn-hover);
-  }
-  
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.asignar-card {
+  background-color: var(--color-card);
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.asignar-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* === Buscadores === */
+.buscador-input {
+  width: 50%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.buscador-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* === Botones de frentes === */
+.lista-frentes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-frente {
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-frente:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: scale(1.03);
+}
+
+.btn-frente.activo {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* === Tabla de trabajadores === */
+.tabla-trabajadores {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-card);
+}
+
+.tabla-trabajadores th,
+.tabla-trabajadores td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.tabla-trabajadores thead {
+  background-color: var(--color-bg);
+}
+
+/* Hover más sutil */
+.tabla-trabajadores tr:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Gris muy suave */
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* === Botones en la tabla === */
+.acciones-btn {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-asignar,
+.btn-eliminar {
+  border: none;
+  border-radius: 75px; /* Más redondo */
+  padding: 0.4rem 0.9rem;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-asignar {
+  background-color: var(--color-success, #28a745);
+  color: white;
+}
+
+.btn-asignar:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.btn-eliminar {
+  background-color: var(--color-danger, #dc3545);
+  color: white;
+}
+
+.btn-eliminar:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* === Mensaje === */
+.asignar-mensaje {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}

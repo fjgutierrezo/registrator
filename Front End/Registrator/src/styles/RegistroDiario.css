@@ -1,84 +1,185 @@
-/* RegistroDiario.css */
+/* === REGISTRO DIARIO (Estilo unificado con CrearFrente/ControlDiario) === */
 
-.registro-diario-page {
-    min-height: 100vh;
-    background-color: var(--color-bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
+/* Contenedor principal */
+.registro-diario {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header superior (usuario + fecha/hora) */
+.rd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 0 0 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+}
+
+.rd-usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rd-saludo {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.rd-cedula {
+  color: var(--color-text);
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+
+.rd-fecha-hora {
+  text-align: right;
+}
+
+.rd-hora {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+/* Contenido general */
+.rd-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Card interna (igual a crear-frente-card) */
+.rd-card {
+  padding: 1rem 2rem 2rem;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.rd-card h3 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Campos (igual a crear-frente-form inputs) */
+.rd-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rd-campo label {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  opacity: 0.9;
+}
+
+.rd-campo input[type="text"],
+.rd-campo select,
+.rd-campo textarea {
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.rd-campo textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.rd-campo input:focus,
+.rd-campo select:focus,
+.rd-campo textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Estado de geolocalización (alineado al look general) */
+.rd-geoestado {
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-card);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.rd-geoestado.ok {
+  box-shadow: inset 0 0 0 2px rgba(46, 204, 113, 0.25);
+}
+
+.rd-geoestado.bad {
+  box-shadow: inset 0 0 0 2px rgba(231, 76, 60, 0.25);
+}
+
+.rd-error {
+  margin-top: 0.35rem;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Botones (mismo estilo que CrearFrente/tabla) */
+button {
+  background-color: var(--color-btn);
+  color: var(--color-btn-text);
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--color-btn-hover);
+  transform: scale(1.02);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive (igual filosofía móvil-first de tus vistas) */
+@media (max-width: 640px) {
+  .registro-diario {
+    padding: 1.25rem;
+    margin: 1rem;
   }
-  
-  .registro-diario-card {
-    background-color: var(--color-card);
-    padding: 2rem 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    max-width: 550px;
-    border: 2px solid var(--color-primary);
-  }
-  
-  .registro-diario-card h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--color-primary);
-  }
-  
-  .registro-diario-form {
-    display: flex;
+
+  .rd-header {
     flex-direction: column;
-    gap: 1rem;
+    align-items: flex-start;
+    gap: 6px;
+    text-align: left;
   }
-  
-  .registro-diario-form label {
-    font-weight: 500;
-    color: var(--color-text);
+
+  .rd-fecha-hora {
+    text-align: left;
+    width: 100%;
   }
-  
-  .registro-diario-form input,
-  .registro-diario-form select {
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    font-size: 1rem;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    transition: border-color 0.3s ease;
+
+  .rd-card {
+    padding: 1rem 1.25rem 1.25rem;
   }
-  
-  .registro-diario-form input:focus,
-  .registro-diario-form select:focus {
-    border-color: var(--color-primary);
-    outline: none;
-  }
-  
-  .registro-diario-form button {
-    padding: 0.75rem;
-    background-color: var(--color-btn);
-    color: var(--color-btn-text);
-    font-weight: bold;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .registro-diario-form button:hover {
-    background-color: var(--color-btn-hover);
-  }
-  
-  .geo-info {
-    font-size: 0.9rem;
-    color: green;
-    text-align: center;
-    margin-top: -0.5rem;
-  }
-  
-  .error-message {
-    color: #ff4d4d;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
+}

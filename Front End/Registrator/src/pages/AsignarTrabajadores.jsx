@@ -1,141 +1,268 @@
-import React, { useState, useEffect } from "react";
+// src/pages/AsignarTrabajadores.jsx
+import React, { useEffect, useState } from "react";
+import {
+  listarTrabajadoresPorFrente,
+  asignarTrabajadorAFrente,
+  eliminarTrabajadorDeFrente,
+} from "../services/trabajadorFrenteService";
+import employeeService from "../services/employeeService";
+import { obtenerFrentesTrabajo } from "../services/frenteService";
 import "../styles/AsignarTrabajadores.css";
 
-function AsignarTrabajadores() {
+const AsignarTrabajadores = () => {
+  const [filtroFrente, setFiltroFrente] = useState("");
   const [frentes, setFrentes] = useState([]);
-  const [trabajadores, setTrabajadores] = useState([]);
   const [frenteSeleccionado, setFrenteSeleccionado] = useState(null);
-  const [busquedaFrente, setBusquedaFrente] = useState("");
-  const [busquedaTrabajador, setBusquedaTrabajador] = useState("");
-  const [seleccionados, setSeleccionados] = useState([]);
-  const [mensaje, setMensaje] = useState("");
 
-  // Simulación de carga inicial (luego conectamos a backend)
+  const [trabajadoresAsignados, setTrabajadoresAsignados] = useState([]);
+  const [filtroTrabajador, setFiltroTrabajador] = useState("");
+  const [trabajadoresDisponibles, setTrabajadoresDisponibles] = useState([]);
+
+  // Cargar frentes y filtrarlos según filtroFrente
   useEffect(() => {
-    setFrentes([
-      { id: 1, nombre: "Frente A" },
-      { id: 2, nombre: "Frente B" },
-      { id: 3, nombre: "Frente C" }
-    ]);
-    setTrabajadores([
-      { id: 101, nombre: "Juan Pérez", frentesAsignados: ["Frente B"] },
-      { id: 102, nombre: "María López", frentesAsignados: [] },
-      { id: 103, nombre: "Carlos Gómez", frentesAsignados: ["Frente A", "Frente C"] }
-    ]);
-  }, []);
-
-  const seleccionarTrabajador = (trabajador) => {
-    if (!seleccionados.find(t => t.id === trabajador.id)) {
-      setSeleccionados([...seleccionados, trabajador]);
-
-      if (trabajador.frentesAsignados.length > 0) {
-        setMensaje(`⚠ El trabajador ${trabajador.nombre} ya está asignado a: ${trabajador.frentesAsignados.join(", ")}`);
-      } else {
-        setMensaje("");
+    const cargarFrentes = async () => {
+      try {
+        const todosFrentes = await obtenerFrentesTrabajo();
+        const filtrados = todosFrentes.filter(
+          (f) =>
+            f.id.toString().includes(filtroFrente) ||
+            f.nombre.toLowerCase().includes(filtroFrente.toLowerCase())
+        );
+        setFrentes(filtrados);
+      } catch (error) {
+        console.error("Error cargando frentes:", error);
       }
-    }
+    };
+
+    cargarFrentes();
+  }, [filtroFrente]);
+
+  // Cuando se selecciona un frente, cargar trabajadores asignados
+  useEffect(() => {
+    const cargarTrabajadoresAsignados = async () => {
+      if (!frenteSeleccionado) {
+        setTrabajadoresAsignados([]);
+        setTrabajadoresDisponibles([]);
+        return;
+      }
+      try {
+        const asignados = await listarTrabajadoresPorFrente(frenteSeleccionado.id);
+        setTrabajadoresAsignados(asignados);
+      } catch (error) {
+        console.error("Error cargando trabajadores asignados:", error);
+        setTrabajadoresAsignados([]);
+      }
+    };
+
+    cargarTrabajadoresAsignados();
+  }, [frenteSeleccionado]);
+
+  // Cargar trabajadores disponibles y filtrar por búsqueda + excluir ya asignados
+  useEffect(() => {
+    const cargarTrabajadoresDisponibles = async () => {
+      if (!frenteSeleccionado) {
+        setTrabajadoresDisponibles([]);
+        return;
+      }
+      try {
+        const todosTrabajadores = await employeeService.getTrabajadoresConFrente();
+
+        const filtrados = todosTrabajadores.filter((t) => {
+          const nombreYcedula = (t.cedula + " " + t.nombreCompleto).toLowerCase();
+          const coincideFiltro = nombreYcedula.includes(filtroTrabajador.toLowerCase());
+          // OJO: los asignados traen cedulaTrabajador
+          const noEstaAsignado = !trabajadoresAsignados.some(
+            (asig) => asig.cedulaTrabajador === t.cedula
+          );
+          return coincideFiltro && noEstaAsignado;
+        });
+
+        setTrabajadoresDisponibles(filtrados);
+      } catch (error) {
+        console.error("Error cargando trabajadores disponibles:", error);
+        setTrabajadoresDisponibles([]);
+      }
+    };
+
+    cargarTrabajadoresDisponibles();
+  }, [filtroTrabajador, trabajadoresAsignados, frenteSeleccionado]);
+
+  // Seleccionar frente
+  const seleccionarFrente = (frente) => {
+    setFrenteSeleccionado(frente);
+    setFiltroTrabajador("");
   };
 
-  const quitarSeleccionado = (id) => {
-    setSeleccionados(seleccionados.filter(t => t.id !== id));
-  };
-
-  const asignarTrabajadores = () => {
+  // Asignar trabajador a frente
+  const asignarTrabajador = async (trabajador) => {
     if (!frenteSeleccionado) {
-      setMensaje("⚠ Debes seleccionar un frente primero.");
+      alert("Debe seleccionar un frente primero");
       return;
     }
-    if (seleccionados.length === 0) {
-      setMensaje("⚠ No has seleccionado trabajadores.");
-      return;
+    try {
+      const creado = await asignarTrabajadorAFrente({
+        cedula: trabajador.cedula,
+        nombre: trabajador.nombreCompleto,
+        rol: trabajador.rol || "Trabajador",
+        frenteTrabajoId: frenteSeleccionado.id,
+      });
+
+      // Agregar el objeto devuelto por el backend (ya trae id/cedulaTrabajador/nombreTrabajador/rol)
+      setTrabajadoresAsignados((prev) => [...prev, creado]);
+
+      // Quitar de disponibles
+      setTrabajadoresDisponibles((prev) =>
+        prev.filter((t) => t.cedula !== trabajador.cedula)
+      );
+    } catch (error) {
+      console.error("Error asignando trabajador:", error);
+      alert("Error asignando trabajador");
     }
-    // Aquí iría la llamada al backend
-    console.log("Asignando", seleccionados, "al frente", frenteSeleccionado);
-    setMensaje("✅ Trabajadores asignados correctamente.");
-    setSeleccionados([]);
+  };
+
+  // Eliminar trabajador del frente
+  const eliminarTrabajador = async (trabajador) => {
+    try {
+      await eliminarTrabajadorDeFrente(trabajador.id);
+
+      // Sacar de la lista de asignados
+      setTrabajadoresAsignados((prev) => prev.filter((t) => t.id !== trabajador.id));
+
+      // (Opcional) Regresarlo a disponibles con el formato correcto
+      setTrabajadoresDisponibles((prev) => [
+        ...prev,
+        {
+          cedula: trabajador.cedulaTrabajador,
+          nombreCompleto: trabajador.nombreTrabajador,
+          rol: trabajador.rol || "Trabajador",
+        },
+      ]);
+    } catch (error) {
+      console.error("Error eliminando trabajador:", error);
+      alert("Error eliminando trabajador");
+    }
   };
 
   return (
     <div className="asignar-container">
       <div className="asignar-card">
-        <h2>Asignar Trabajadores a Frente</h2>
-
-        {/* Selector de frente */}
-        <div className="buscadores-dobles">
-          <input
-            type="text"
-            placeholder="Buscar frente..."
-            value={busquedaFrente}
-            onChange={(e) => setBusquedaFrente(e.target.value)}
-          />
-        </div>
+        <h2>Buscar Frente de Trabajo</h2>
+        <input
+          type="text"
+          placeholder="Buscar por ID o Nombre"
+          value={filtroFrente}
+          onChange={(e) => setFiltroFrente(e.target.value)}
+          className="buscador-input"
+        />
         <table className="tabla-trabajadores">
           <thead>
             <tr>
-              <th>Frente</th>
-            </tr>
-          </thead>
-          <tbody>
-            {frentes
-              .filter(f => f.nombre.toLowerCase().includes(busquedaFrente.toLowerCase()))
-              .map(f => (
-                <tr
-                  key={f.id}
-                  onClick={() => setFrenteSeleccionado(f)}
-                  style={{ backgroundColor: frenteSeleccionado?.id === f.id ? "var(--color-primary)" : "" }}
-                >
-                  <td>{f.nombre}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
-        {/* Buscador de trabajadores */}
-        <div className="buscadores-dobles">
-          <input
-            type="text"
-            placeholder="Buscar trabajador..."
-            value={busquedaTrabajador}
-            onChange={(e) => setBusquedaTrabajador(e.target.value)}
-          />
-        </div>
-        <table className="tabla-trabajadores">
-          <thead>
-            <tr>
+              <th>ID</th>
               <th>Nombre</th>
-              <th>Frentes Asignados</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {trabajadores
-              .filter(t => t.nombre.toLowerCase().includes(busquedaTrabajador.toLowerCase()))
-              .map(t => (
-                <tr key={t.id} onClick={() => seleccionarTrabajador(t)}>
-                  <td>{t.nombre}</td>
-                  <td>{t.frentesAsignados.join(", ") || "Ninguno"}</td>
-                </tr>
-              ))}
+            {frentes.length === 0 && (
+              <tr>
+                <td colSpan={4} style={{ textAlign: "center" }}>
+                  No hay frentes que mostrar
+                </td>
+              </tr>
+            )}
+            {frentes.map((frente) => (
+              <tr
+                key={frente.id}
+                className={frenteSeleccionado?.id === frente.id ? "seleccionado" : ""}
+              >
+                <td>{frente.id}</td>
+                <td>{frente.nombre}</td>
+                <td>{frente.estado}</td>
+                <td>
+                  <button className="btn-frente" onClick={() => seleccionarFrente(frente)}>Seleccionar</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
 
-        {/* Lista de seleccionados */}
-        <ul className="lista-seleccionados">
-          {seleccionados.map(t => (
-            <li key={t.id}>
-              {t.nombre}
-              <button onClick={() => quitarSeleccionado(t.id)}>❌</button>
-            </li>
-          ))}
-        </ul>
+        {frenteSeleccionado && (
+          <>
+            <h3>Trabajadores Asignados al Frente "{frenteSeleccionado.nombre}"</h3>
+            {trabajadoresAsignados.length === 0 ? (
+              <p>No hay trabajadores asignados.</p>
+            ) : (
+              <table className="tabla-trabajadores">
+                <thead>
+                  <tr>
+                    <th>Cédula</th>
+                    <th>Nombre Completo</th>
+                    <th>Cargo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {trabajadoresAsignados.map((trabajador) => (
+                    <tr key={trabajador.id}>
+                      <td>{trabajador.cedulaTrabajador}</td>
+                      <td>{trabajador.nombreTrabajador}</td>
+                      <td>{trabajador.rol}</td>
+                      <td>
+                        <button className="btn-eliminar"  onClick={() => eliminarTrabajador(trabajador)}>
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
 
-        {/* Mensaje */}
-        {mensaje && <p className="asignar-mensaje">{mensaje}</p>}
-
-        {/* Botón asignar */}
-        <button onClick={asignarTrabajadores}>Asignar</button>
+            <h3>Buscar Trabajador para Asignar</h3>
+            <input
+                type="text"
+                placeholder="Buscar por cédula o nombre"
+                value={filtroTrabajador}
+                onChange={(e) => setFiltroTrabajador(e.target.value)}
+                className="buscador-input"
+              />
+            <table className="tabla-trabajadores">
+              <thead>
+                <tr>
+                  <th>Cédula</th>
+                  <th>Nombre Completo</th>
+                  <th>Cargo</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {trabajadoresDisponibles.length === 0 && (
+                  <tr>
+                    <td colSpan={4} style={{ textAlign: "center" }}>
+                      No hay trabajadores disponibles
+                    </td>
+                  </tr>
+                )}
+                {trabajadoresDisponibles.map((trabajador) => (
+                  <tr key={trabajador.cedula}>
+                    <td>{trabajador.cedula}</td>
+                    <td>{trabajador.nombreCompleto}</td>
+                    <td>{trabajador.rol || "Trabajador"}</td>
+                    <td>
+                      <button  className="btn-asignar" onClick={() => asignarTrabajador(trabajador)}>
+                        Asignar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default AsignarTrabajadores;

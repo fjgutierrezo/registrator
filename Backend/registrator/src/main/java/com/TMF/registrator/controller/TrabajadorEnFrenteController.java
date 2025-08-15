@@ -35,8 +35,16 @@ public class TrabajadorEnFrenteController {
     @PostMapping("/crear")
     public ResponseEntity<?> crear(@RequestBody TrabajadorEnFrenteRequest request) {
         try {
-            TrabajadorEnFrente creado = service.guardarDesdeRequest(request);
-            return ResponseEntity.ok(creado);
+            // Validaciones básicas antes de procesar
+            if (request.getCedula() == null || request.getCedula().isBlank()) {
+                return ResponseEntity.badRequest().body("La cédula es obligatoria.");
+            }
+            if (request.getFrenteTrabajoId() == null) {
+                return ResponseEntity.badRequest().body("El ID del frente de trabajo es obligatorio.");
+            }
+            // Guardar el trabajador en el frente
+            TrabajadorEnFrente trabajadorCreado = service.guardarDesdeRequest(request);
+            return ResponseEntity.ok(trabajadorCreado);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (NoSuchElementException e) {

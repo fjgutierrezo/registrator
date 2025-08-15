@@ -2,16 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker, Circle } from "@react-google-maps/api";
 import "../styles/CrearFrente.css";
 import { AuthContext } from "../utils/AuthContext";
-import { crearFrenteTrabajo, obtenerFrentesTrabajo } from "../services/frenteService";
+import {
+  crearFrenteTrabajo,
+  obtenerFrentesTrabajo,
+  editarFrenteTrabajo,
+  actualizarEstadoFrente,
+} from "../services/frenteService";
 
-const containerStyle = {
-  width: "100%",
-  height: "400px",
-};
-
-const centerBogota = { lat: 4.60971, lng: -74.08175 };
-
-// Normaliza texto: trim, lowercase y quitar diacríticos
+const containerStyle = { width: "100%", height: "400px" };
+const centerBogota = { lat: 41.5632, lng: 2.0089 };
 const normalize = (s = "") =>
   s.toString().trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
@@ -23,16 +22,21 @@ function CrearFrente() {
   const [posicion, setPosicion] = useState(null);
   const [mensaje, setMensaje] = useState("");
 
-  // Frentes y búsqueda
   const [frentes, setFrentes] = useState([]);
   const [busquedaFrente, setBusquedaFrente] = useState("");
   const [frentesFiltrados, setFrentesFiltrados] = useState([]);
+
+  const [editandoId, setEditandoId] = useState(null);
+  const [editNombre, setEditNombre] = useState("");
+  const [editCentroCosto, setEditCentroCosto] = useState("");
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [accionPendiente, setAccionPendiente] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCd9axN-90rSSTdZE97zYjXcz_yYydF_gk",
   });
 
-  // Cargar frentes usando frenteService
   const cargarFrentes = async () => {
     try {
       const data = await obtenerFrentesTrabajo();
@@ -47,17 +51,17 @@ function CrearFrente() {
     cargarFrentes();
   }, []);
 
-  // Filtrado de frentes
   useEffect(() => {
     const filtro = normalize(busquedaFrente);
     if (!filtro) {
       setFrentesFiltrados([]);
       return;
     }
-    const filtrados = frentes.filter((f) =>
-      normalize(f.nombre).includes(filtro) || String(f.id).includes(filtro)
+    setFrentesFiltrados(
+      frentes.filter(
+        (f) => normalize(f.nombre).includes(filtro) || String(f.id).includes(filtro)
+      )
     );
-    setFrentesFiltrados(filtrados);
   }, [busquedaFrente, frentes]);
 
   const handleClickMapa = (e) => {
@@ -99,33 +103,113 @@ function CrearFrente() {
     }
   };
 
+  const iniciarEdicion = (frente) => {
+    setEditandoId(frente.id);
+    setEditNombre(frente.nombre);
+    setEditCentroCosto(frente.centroCosto);
+  };
+
+  const guardarEdicion = async (id) => {
+    try {
+      await editarFrenteTrabajo(id, { nombre: editNombre, centroCosto: editCentroCosto });
+      setEditandoId(null);
+      await cargarFrentes();
+    } catch (error) {
+      console.error("Error al guardar edición:", error);
+    }
+  };
+
+  const confirmarAccion = (tipo, id) => {
+    setAccionPendiente({ tipo, id });
+    setModalVisible(true);
+  };
+
+  const ejecutarAccion = async () => {
+    if (!accionPendiente) return;
+    try {
+      await actualizarEstadoFrente(accionPendiente.id, accionPendiente.tipo);
+      setModalVisible(false);
+      setAccionPendiente(null);
+      await cargarFrentes();
+    } catch (error) {
+      console.error("Error al cambiar estado:", error);
+    }
+  };
+
   if (!isLoaded) return <p className="crear-frente-container">Cargando mapa...</p>;
 
   return (
     <div className="crear-frente-container">
       <div className="crear-frente-card">
         <h2>Crear Frente de Trabajo</h2>
-
         <form onSubmit={handleSubmit} className="crear-frente-form">
-          <input type="text" placeholder="Nombre del Frente" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
-          <input type="text" placeholder="Centro de Costo" value={centroCosto} onChange={(e) => setCentroCosto(e.target.value)} required />
-          <input type="number" placeholder="Radio en metros" value={radio} onChange={(e) => setRadio(Number(e.target.value))} min="10" max="500" required />
+          <input
+            type="text"
+            placeholder="Nombre del Frente"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Centro de Costo"
+            value={centroCosto}
+            onChange={(e) => setCentroCosto(e.target.value)}
+            required
+          />
+          <input
+            type="number"
+            placeholder="Radio en metros"
+            value={radio}
+            onChange={(e) => setRadio(Number(e.target.value))}
+            min="10"
+            max="500"
+            required
+          />
           <button type="submit">Crear Frente</button>
         </form>
 
         <div className="mapa-container">
-          <GoogleMap mapContainerStyle={containerStyle} center={centerBogota} zoom={15} onClick={handleClickMapa}>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={centerBogota}
+            zoom={15}
+            onClick={handleClickMapa}
+          >
+            {/* Marcador de la nueva posición */}
             {posicion && (
               <>
                 <Marker position={posicion} />
-                <Circle center={posicion} radius={radio} options={{ strokeColor: "#f8c400" }} />
+                <Circle
+                  center={posicion}
+                  radius={radio}
+                  options={{ strokeColor: "#f8c400" }}
+                />
               </>
             )}
+
+            {/* Marcadores de frentes activos existentes */}
+            {frentes
+              .filter((f) => f.estado === "ACTIVO")
+              .map((f) => (
+                <React.Fragment key={f.id}>
+                  <Marker
+                    position={{ lat: f.latitudCentro, lng: f.longitudCentro }}
+                    title={`Frente número: ${f.id}\nNombre: ${f.nombre}`}
+                  />
+                  <Circle
+                    center={{ lat: f.latitudCentro, lng: f.longitudCentro }}
+                    radius={f.radioMetros}
+                    options={{ strokeColor: "#4285F4", fillOpacity: 0.1 }}
+                  />
+                </React.Fragment>
+              ))}
           </GoogleMap>
         </div>
 
         <p className="crear-frente-mensaje">{mensaje}</p>
 
+        {/* 🔹 Mantengo tu buscador y tabla intactos */}
         <div className="trabajadores-section">
           <h3>Buscar Frentes Existentes</h3>
           <input
@@ -144,19 +228,59 @@ function CrearFrente() {
                   <th>Nombre</th>
                   <th>Centro de Costo</th>
                   <th>Estado</th>
-                  <th>Acciones</th>
+                  <th colSpan={2}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {frentesFiltrados.map((f) => (
                   <tr key={f.id} className={f.estado === "APAGADO" ? "frente-apagado" : ""}>
                     <td>{f.id}</td>
-                    <td>{f.nombre}</td>
-                    <td>{f.centroCosto}</td>
+                    <td>
+                      {editandoId === f.id ? (
+                        <input
+                          value={editNombre}
+                          onChange={(e) => setEditNombre(e.target.value)}
+                        />
+                      ) : (
+                        f.nombre
+                      )}
+                    </td>
+                    <td>
+                      {editandoId === f.id ? (
+                        <input
+                          value={editCentroCosto}
+                          onChange={(e) => setEditCentroCosto(e.target.value)}
+                        />
+                      ) : (
+                        f.centroCosto
+                      )}
+                    </td>
                     <td>{f.estado}</td>
                     <td>
-                      <button disabled={f.estado === "APAGADO"}>Editar</button>
-                      <button disabled={f.estado === "APAGADO"}>Apagar</button>
+                      {editandoId === f.id ? (
+                        <button onClick={() => guardarEdicion(f.id)}>Guardar</button>
+                      ) : (
+                        <button
+                          disabled={f.estado === "APAGADO"}
+                          onClick={() => iniciarEdicion(f)}
+                        >
+                          Editar
+                        </button>
+                      )}
+                    </td>
+                    <td>
+                      <button
+                        disabled={f.estado === "APAGADO"}
+                        onClick={() => confirmarAccion("finalizado", f.id)}
+                      >
+                        Finalizar
+                      </button>
+                      <button
+                        disabled={f.estado === "APAGADO"}
+                        onClick={() => confirmarAccion("apagado", f.id)}
+                      >
+                        Borrar
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -165,6 +289,20 @@ function CrearFrente() {
           )}
         </div>
       </div>
+
+      {modalVisible && (
+        <div className="modal-confirmacion">
+          <div className="modal-contenido">
+            <p>
+              {accionPendiente?.tipo === "apagado"
+                ? "¿Seguro que quieres borrar (apagar) este frente?"
+                : "¿Seguro que quieres finalizar este frente?"}
+            </p>
+            <button onClick={ejecutarAccion}>Sí</button>
+            <button onClick={() => setModalVisible(false)}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
