@@ -19,12 +19,16 @@ function Navbar() {
     ],
     trabajador: [{ path: "/registro-diario", label: "Registro Diario" }],
     capataz: [
-      { path: "/control-diario", label: "Control Diario" },
+      { path: "/control-diario-pendiente", label: "Control Diario" },
       { path: "/crear-frente", label: "Crear Frente" },
       { path: "/trabajador-frente", label: "Registrar Trabajador" }, 
     ],
     
-    jefe: [{ path: "/validacion-jefe", label: "Validación" }],
+    jefe: [{ path: "/validacion-jefe", label: "Validación" },
+      { path: "/control-diario-pendiente", label: "Control Diario" },
+      { path: "/crear-frente", label: "Crear Frente" },
+      { path: "/trabajador-frente", label: "Registrar Trabajador" },
+    ],
   };
 
   const cerrarSesion = () => {

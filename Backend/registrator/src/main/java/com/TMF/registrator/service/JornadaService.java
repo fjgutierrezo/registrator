@@ -8,6 +8,8 @@ import com.TMF.registrator.repository.*;
 import com.TMF.registrator.util.GeoUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.TMF.registrator.repository.UsuarioRepository;
+import com.TMF.registrator.model.Usuario;
 
 import java.nio.file.*;
 import java.time.Duration;
@@ -24,18 +26,29 @@ public class JornadaService {
     private final FrenteTrabajoRepository frenteRepo;
     private final AdjuntoJornadaRepository adjuntoRepo;
 
+    private final UsuarioRepository usuarioRepo;
+
     private final Path storageBase = Paths.get("storage/jornadas");
     private final double ACCURACY_MAX_METROS = 50.0;
     private final Duration DESFASE_MAX_CLIENTE = Duration.ofMinutes(2);
 
-    public JornadaService(JornadaRepository jornadaRepo,
-                          FrenteTrabajoRepository frenteRepo,
-                          AdjuntoJornadaRepository adjuntoRepo) {
+    public JornadaService(JornadaRepository jornadaRepo,FrenteTrabajoRepository frenteRepo,AdjuntoJornadaRepository adjuntoRepo, UsuarioRepository usuarioRepo) {
         this.jornadaRepo = jornadaRepo;
         this.frenteRepo = frenteRepo;
         this.adjuntoRepo = adjuntoRepo;
+        this.usuarioRepo = usuarioRepo;
     }
-
+    private static String ns(String s) {
+        return s == null ? "" : s.trim();
+    }
+    private static String nombreCompleto(Usuario u) {
+        return String.format("%s %s %s %s",
+                ns(u.getPrimerNombre()),
+                ns(u.getSegundoNombre()),
+                ns(u.getPrimerApellido()),
+                ns(u.getSegundoApellido())
+        ).replaceAll("\\s+", " ").trim();
+    }
     public JornadaActivaResponse crearEntrada(JornadaEntradaRequest req, String ip, String userAgent) {
         var frente = frenteRepo.findById(req.getFrenteTrabajoId())
                 .orElseThrow(() -> new IllegalArgumentException("Frente no existe"));
@@ -60,7 +73,11 @@ public class JornadaService {
 
         Jornada j = new Jornada();
         j.setCedulaTrabajador(req.getCedula());
-        j.setNombreTrabajador(""); // opcional: poblar desde UsuarioService si quieres
+        String nombre = usuarioRepo.findByCedula(req.getCedula())
+                .map(JornadaService::nombreCompleto)
+                .filter(n -> !n.isBlank())
+                .orElse(req.getCedula()); // fallback seguro
+        j.setNombreTrabajador(nombre);
         j.setFrenteTrabajoId(req.getFrenteTrabajoId());
         j.setFecha(hoy);
         j.setHoraEntradaServidor(nowServer);

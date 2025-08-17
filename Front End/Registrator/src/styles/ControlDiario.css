@@ -1,71 +1,258 @@
-/* ControlDiario.css */
+/* =========== ControlDiario.css (pendientes + validados) =========== */
+/* Usa variables existentes; si faltan, aplican estos fallbacks vía var(..., fallback) */
 
-.control-page {
-    background-color: var(--color-bg);
-    min-height: 100vh;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .control-card {
-    background-color: var(--color-card);
-    padding: 2rem;
-    border-radius: 16px;
-    width: 100%;
-    max-width: 1100px;
-    border: 2px solid var(--color-primary);
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .control-card h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-  }
-  
-  /* Tabla */
-  .control-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .control-table th,
-  .control-table td {
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--color-border);
-    text-align: center;
-    font-size: 0.95rem;
-    color: var(--color-text);
-  }
-  
-  .control-table th {
-    background-color: var(--color-bg);
-    font-weight: 600;
-  }
-  
-  .control-table input {
-    width: 90%;
-    padding: 0.4rem;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-  }
-  
-  /* Botones */
-  .control-btn {
-    background-color: var(--color-btn);
-    color: var(--color-btn-text);
-    border: none;
-    padding: 0.4rem 0.7rem;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .control-btn:hover {
-    background-color: var(--color-btn-hover);
-  }
-  
+.control-diario-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--color-card, #1a1a1a);
+  color: var(--color-text, #eaeaea);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px;
+  border: 2px solid var(--color-primary, #f7d046);
+  box-shadow: 0 0 12px rgba(0,0,0,0.12);
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+
+/* Card general */
+.control-diario-card {
+  padding: 1rem 1.5rem 1.5rem;
+  background-color: var(--color-card, #1a1a1a);
+  border: 1px solid var(--color-border, #2a2a2a);
+  border-radius: 12px;
+}
+
+/* Header top con link */
+.control-diario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border, #2a2a2a);
+  padding-bottom: .75rem;
+}
+.control-diario-header h2 {
+  margin: 0;
+  color: var(--color-primary, #f7d046);
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+.control-diario-link {
+  color: var(--color-btn-text, #111);
+  background-color: var(--color-btn, #f7d046);
+  border: none;
+  border-radius: 8px;
+  padding: .5rem .9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .15s ease, background-color .2s ease;
+}
+.control-diario-link:hover {
+  background-color: var(--color-btn-hover, #e7c23d);
+  transform: translateY(-1px);
+}
+
+/* Estado vacío */
+.control-diario-empty {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--color-bg, #0f0f0f);
+  border: 1px solid var(--color-border, #2a2a2a);
+  color: var(--color-text, #eaeaea);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Lista de días */
+.cd-list-dias {
+  display: grid;
+  gap: 12px;
+}
+
+/* Día (card colapsable) */
+.cd-dia-card {
+  background-color: var(--color-card, #1a1a1a);
+  border: 1px solid var(--color-border, #2a2a2a);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cd-dia-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  padding: .85rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--color-bg, #0f0f0f);
+}
+.cd-dia-header:hover {
+  background-color: rgba(0,0,0,.2);
+}
+.cd-dia-fecha {
+  font-weight: 700;
+  color: var(--color-primary, #f7d046);
+}
+.cd-dia-contador {
+  color: var(--color-text, #eaeaea);
+  opacity: .85;
+  font-size: .95rem;
+}
+
+.cd-dia-body {
+  padding: 1rem;
+  background-color: var(--color-card, #1a1a1a);
+  border-top: 1px solid var(--color-border, #2a2a2a);
+}
+
+/* Tabla */
+.cd-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-card, #1a1a1a);
+  border: 1px solid var(--color-border, #2a2a2a);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.cd-tabla thead {
+  background-color: var(--color-bg, #0f0f0f);
+}
+.cd-tabla th,
+.cd-tabla td {
+  padding: .75rem;
+  border-bottom: 1px solid var(--color-border, #2a2a2a);
+  color: var(--color-text, #eaeaea);
+  text-align: center;
+  white-space: nowrap;
+}
+.cd-tabla tbody tr:hover {
+  background-color: rgba(0,0,0,.08);
+}
+
+/* Botones */
+.cd-btn {
+  background-color: var(--color-btn, #f7d046);
+  color: var(--color-btn-text, #111);
+  border: none;
+  border-radius: 8px;
+  padding: .45rem .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: .95rem;
+  transition: background-color .2s ease, transform .15s ease;
+}
+.cd-btn:hover { background-color: var(--color-btn-hover, #e7c23d); transform: translateY(-1px); }
+
+.cd-btn-sec {
+  background-color: transparent;
+  color: var(--color-primary, #f7d046);
+  border: 1px solid var(--color-border, #2a2a2a);
+  border-radius: 8px;
+  padding: .45rem .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: .95rem;
+  transition: border-color .2s ease, transform .15s ease;
+}
+.cd-btn-sec:hover { border-color: var(--color-primary, #f7d046); transform: translateY(-1px); }
+
+/* Modal */
+.cd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+.cd-modal {
+  width: 100%;
+  max-width: 720px;
+  background-color: var(--color-card, #1a1a1a);
+  color: var(--color-text, #eaeaea);
+  border: 2px solid var(--color-primary, #f7d046);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  padding: 1rem 1.25rem 1.25rem;
+}
+.cd-modal h3 {
+  margin: 0 0 1rem 0;
+  color: var(--color-primary, #f7d046);
+  font-weight: 600;
+}
+
+/* Layout del modal */
+.cd-modal-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .9rem;
+  margin-bottom: .9rem;
+}
+.cd-modal-col label {
+  display: block;
+  margin-bottom: .4rem;
+  color: var(--color-text, #eaeaea);
+  opacity: .9;
+}
+
+/* Inputs en modal */
+.cd-modal input[type="text"],
+.cd-modal input[type="datetime-local"],
+.cd-modal textarea {
+  width: 100%;
+  padding: .65rem .75rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #2a2a2a);
+  background-color: var(--color-bg, #0f0f0f);
+  color: var(--color-text, #eaeaea);
+  font: inherit;
+  box-sizing: border-box;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.cd-modal textarea { min-height: 90px; resize: vertical; }
+.cd-modal input:focus,
+.cd-modal textarea:focus {
+  outline: none;
+  border-color: var(--color-primary, #f7d046);
+}
+
+/* Acciones del modal */
+.cd-modal-actions {
+  display: flex;
+  gap: .6rem;
+  justify-content: flex-end;
+  margin-top: .5rem;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .control-diario-container { padding: 1.25rem; margin: 1rem; }
+  .control-diario-card { padding: 1rem; }
+  .cd-modal { padding: 1rem; }
+  .cd-modal-row { grid-template-columns: 1fr; }
+  .cd-tabla { display: block; overflow-x: auto; }
+  .cd-tabla th, .cd-tabla td { white-space: nowrap; }
+}
+/* Inline editing en tabla */
+.cd-tabla input[type="datetime-local"] {
+  width: 100%;
+  max-width: 220px;
+  padding: .4rem .5rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border, #2a2a2a);
+  background-color: var(--color-bg, #0f0f0f);
+  color: var(--color-text, #eaeaea);
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.cd-hora-original {
+  margin-top: .25rem;
+  font-size: .82rem;
+  color: var(--color-text, #eaeaea);
+  opacity: .75;
+}

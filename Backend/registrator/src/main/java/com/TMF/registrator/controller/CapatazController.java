@@ -40,4 +40,5 @@ public class CapatazController {
         service.quitarValidacion(id);
         return ResponseEntity.ok(java.util.Map.of("ok", true));
     }
+
 }

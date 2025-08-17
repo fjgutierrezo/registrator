@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import RegistroEmpleado from "./pages/RegistroEmpleado";
 import RegistroDiario from "./pages/RegistroDiario";
-import ControlDiario from "./pages/ControlDiarioPendientes";
+import ControlDiarioPendientes from "./pages/ControlDiarioPendientes";
+import ControlDiarioValidados from "./pages/ControlDiarioValidados";
 import ValidacionJefeObra from "./pages/ValidacionJefeObra";
 import NominaRRHH from "./pages/NominaRRHH";
 import ListaEmpleados from "./pages/ListaEmpleados";
@@ -12,6 +13,7 @@ import CrearFrente from "./pages/CrearFrente";
 import RutaProtegida from "./components/RutaProtegida";
 import LayoutProtegido from "./components/LayoutProtegido";
 import AsignarTrabajadores from "./pages/AsignarTrabajadores";
+
 
 function App() {
   return (
@@ -39,10 +41,10 @@ function App() {
             }
           />
           <Route
-            path="/control-diario"
+            path="/control-diario-pendiente"
             element={
-              <RutaProtegida permitido={["capataz"]}>
-                <ControlDiario />
+              <RutaProtegida permitido={["capataz","jefe"]}>
+                <ControlDiarioPendientes />
               </RutaProtegida>
             }
           />
@@ -73,7 +75,7 @@ function App() {
           <Route 
             path="/crear-frente" 
             element={
-            <RutaProtegida permitido={["capataz"]}>
+            <RutaProtegida permitido={["capataz","jefe"]}>
                 <CrearFrente />
             </RutaProtegida>
             } 
@@ -81,8 +83,16 @@ function App() {
           <Route 
             path="/trabajador-frente" 
             element={
-            <RutaProtegida permitido={["capataz"]}>
+            <RutaProtegida permitido={["capataz","jefe"]}>
                 <AsignarTrabajadores/>
+            </RutaProtegida>
+            } 
+          />
+           <Route 
+            path="/control-diario-validado" 
+            element={
+            <RutaProtegida permitido={["capataz","jefe"]}>
+                <ControlDiarioValidados/>
             </RutaProtegida>
             } 
           />

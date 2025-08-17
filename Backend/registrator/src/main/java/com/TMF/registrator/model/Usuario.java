@@ -315,5 +315,14 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
-// Getters y setters (puedes generarlos con clic derecho → Generate → Getters and Setters)
+    @Transient
+    public String getNombreCompleto(){
+        String s = String.format("%s %s %s %s",
+                ns(getPrimerNombre()), ns(getSegundoNombre()),
+                ns(getPrimerApellido()), ns(getSegundoApellido())
+        ).replaceAll("\\s+"," ").trim();
+        return s.isBlank() ? getCedula() : s;
+    }
+    private static String ns(String v){ return v==null ? "" : v.trim(); }
+
 }

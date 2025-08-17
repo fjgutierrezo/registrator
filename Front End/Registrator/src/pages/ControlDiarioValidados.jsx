@@ -1,32 +1,30 @@
 // src/pages/ControlDiarioValidados.jsx
 import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/ControlDiario.css";
 import { getValidadas, quitarValidacion } from "../services/capatazService";
 
-const fmtFecha = (isoOrDate) => new Date(isoOrDate).toLocaleDateString();
-const fmtHora  = (isoOrNull) => (isoOrNull ? new Date(isoOrNull).toLocaleTimeString() : "—");
+const fmtFecha = (d) => new Date(d).toLocaleDateString();
+const fmtHora  = (iso) => (iso ? new Date(iso).toLocaleTimeString() : "—");
 
 function ControlDiarioValidados() {
   const [dias, setDias] = useState([]);
   const [openDates, setOpenDates] = useState({});
 
   useEffect(() => {
-    getValidadas().then(setDias).catch((e) => console.error(e));
+    getValidadas().then(setDias).catch(console.error);
   }, []);
 
   const noData = useMemo(() => (dias?.length || 0) === 0, [dias]);
-  const toggleDate = (fecha) => setOpenDates((st) => ({ ...st, [fecha]: !st[fecha] }));
+  const toggleDate = (fecha) => setOpenDates((s) => ({ ...s, [fecha]: !s[fecha] }));
 
   const onQuitar = async (j) => {
-    if (!confirm(`¿Quitar validación de ${j.nombreCompleto}?`)) return;
+    if (!confirm(`¿Quitar validación de ${j.nombreCompleto || j.cedula}?`)) return;
     try {
       await quitarValidacion(j.id);
       setDias((prev) =>
         prev
-          .map((d) => ({
-            ...d,
-            trabajadores: d.trabajadores.filter((t) => t.id !== j.id),
-          }))
+          .map((d) => ({ ...d, trabajadores: d.trabajadores.filter((t) => t.id !== j.id) }))
           .filter((d) => d.trabajadores.length > 0)
       );
     } catch (e) {
@@ -39,8 +37,10 @@ function ControlDiarioValidados() {
     <div className="control-diario-container">
       <div className="control-diario-card">
         <div className="control-diario-header">
-          <h2>Control diario — Validados (mes en curso)</h2>
-          <a className="control-diario-link" href="/control/pendientes">Validar</a>
+          <h2>Personal Validado</h2>
+          <Link className="control-diario-link" to="/control-diario-pendiente">
+            Trabajadores sin Validar
+          </Link>
         </div>
 
         {noData ? (
@@ -70,7 +70,7 @@ function ControlDiarioValidados() {
                       <tbody>
                         {dia.trabajadores.map((t) => (
                           <tr key={t.id}>
-                            <td>{t.nombreCompleto}</td>
+                            <td>{t.nombreCompleto || t.cedula}</td>
                             <td>{fmtHora(t.horaEntradaEditada || t.horaEntrada)}</td>
                             <td>{fmtHora(t.horaSalidaEditada  || t.horaSalida)}</td>
                             <td>{t.frenteNombre}</td>

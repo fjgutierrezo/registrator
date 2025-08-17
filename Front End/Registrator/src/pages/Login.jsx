@@ -34,7 +34,7 @@ function Login() {
 
         const rutas = {
           trabajador: "/registro-diario",
-          capataz: "/control-diario",
+          capataz: "/control-diario-Pendiente",
           jefe: "/validacion-jefe",
           rrhh: "/nomina",
         };
