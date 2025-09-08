@@ -81,6 +81,10 @@ public class UsuarioService {
         usuario.setTipoCuenta(request.getTipoCuenta());
         usuario.setContactoEmergencia(request.getContactoEmergencia());
         usuario.setTelefonoContactoEmergencia(request.getTelefonoContactoEmergencia());
+        usuario.setSalario(request.getSalario());
+        usuario.setBonificacion(request.getBonificacion());
+        usuario.setAuxilioTransporte(request.getAuxilioTransporte());
+        usuario.setRol(request.getRol());
 
         usuarioRepository.save(usuario);
         return ResponseEntity.ok("Empleado actualizado correctamente.");

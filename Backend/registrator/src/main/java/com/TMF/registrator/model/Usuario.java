@@ -2,6 +2,8 @@ package com.TMF.registrator.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -46,12 +48,21 @@ public class Usuario {
     private String email;
     private String password;
     private String rol;
+    @Column(precision = 15, scale = 2)
+    private BigDecimal salario;
+
+    @Column(precision = 15, scale = 2)
+    private BigDecimal bonificacion;
+
+    @Column(precision = 15, scale = 2, name = "auxilio_transporte")
+    private BigDecimal auxilioTransporte;
+
     public Usuario(String primerNombre, String segundoNombre, String primerApellido, String segundoApellido,
                    int diaNacimiento, int mesNacimiento, int anioNacimiento, String cedula, String celular,
                    String direccion, String barrio, String arl, String eps, String fondoPensiones,
                    String fondoCesantias, String tallaCamisa, String tallaPantalon, String tallaCalzado,
                    int numeroHijos, String tipoSangre, String banco, String numeroCuenta, String tipoCuenta,
-                   String contactoEmergencia, String telefonoContactoEmergencia,String rol, String password) {
+                   String contactoEmergencia, String telefonoContactoEmergencia,String rol, String password, BigDecimal salario, BigDecimal bonificacion, BigDecimal auxilioTransporte) {
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.primerApellido = primerApellido;
@@ -79,6 +90,9 @@ public class Usuario {
         this.telefonoContactoEmergencia = telefonoContactoEmergencia;
         this.rol = rol;
         this.password = password;
+        this.salario = salario;
+        this.bonificacion = bonificacion;
+        this.auxilioTransporte = auxilioTransporte;
     }
     public Usuario() {
     }
@@ -315,6 +329,30 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
+    }
+
+    public BigDecimal getBonificacion() {
+        return bonificacion;
+    }
+
+    public void setBonificacion(BigDecimal bonificacion) {
+        this.bonificacion = bonificacion;
+    }
+
+    public BigDecimal getAuxilioTransporte() {
+        return auxilioTransporte;
+    }
+
+    public void setAuxilioTransporte(BigDecimal auxilioTransporte) {
+        this.auxilioTransporte = auxilioTransporte;
+    }
+
     @Transient
     public String getNombreCompleto(){
         String s = String.format("%s %s %s %s",

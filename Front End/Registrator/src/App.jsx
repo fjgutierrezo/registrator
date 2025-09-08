@@ -75,7 +75,7 @@ function App() {
           <Route 
             path="/crear-frente" 
             element={
-            <RutaProtegida permitido={["capataz","jefe"]}>
+            <RutaProtegida permitido={["capataz","jefe","rrhh"]}>
                 <CrearFrente />
             </RutaProtegida>
             } 
@@ -83,7 +83,7 @@ function App() {
           <Route 
             path="/trabajador-frente" 
             element={
-            <RutaProtegida permitido={["capataz","jefe"]}>
+            <RutaProtegida permitido={["capataz","jefe","rrhh"]}>
                 <AsignarTrabajadores/>
             </RutaProtegida>
             } 

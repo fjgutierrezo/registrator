@@ -65,8 +65,10 @@ public class Jornada {
 
     private String aprobadoPorCedula;
     private String aprobadoPorNombre;
-    private OffsetDateTime aprobadoEn;
-
+    private java.time.OffsetDateTime aprobadoEn;
+    private String jefeAprobadoPorCedula;
+    private String jefeAprobadoPorNombre;
+    private java.time.OffsetDateTime jefeAprobadoEn;
     @Column(length = 1000)
     private String rechazoMotivo;
 
@@ -158,5 +160,14 @@ public class Jornada {
 
     public String getMotivoEdicionCapataz() { return motivoEdicionCapataz; }
     public void setMotivoEdicionCapataz(String motivoEdicionCapataz) { this.motivoEdicionCapataz = motivoEdicionCapataz; }
+    public String getJefeAprobadoPorCedula() { return jefeAprobadoPorCedula; }
+    public void setJefeAprobadoPorCedula(String v) { this.jefeAprobadoPorCedula = v; }
+
+    public String getJefeAprobadoPorNombre() { return jefeAprobadoPorNombre; }
+    public void setJefeAprobadoPorNombre(String v) { this.jefeAprobadoPorNombre = v; }
+
+    public java.time.OffsetDateTime getJefeAprobadoEn() { return jefeAprobadoEn; }
+    public void setJefeAprobadoEn(java.time.OffsetDateTime v) { this.jefeAprobadoEn = v; }
+
 
 }

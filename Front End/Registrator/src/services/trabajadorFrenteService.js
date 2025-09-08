@@ -1,5 +1,6 @@
 // src/services/trabajadorFrenteService.js
 import axios from "axios";
+axios.defaults.withCredentials = true; 
 
 const API_URL = "http://localhost:8080/api/trabajadorEnFrente";
 

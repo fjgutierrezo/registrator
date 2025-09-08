@@ -5,7 +5,7 @@ import {
   asignarTrabajadorAFrente,
   eliminarTrabajadorDeFrente,
 } from "../services/trabajadorFrenteService";
-import employeeService from "../services/employeeService";
+import employeeService from "../services/empleadoService";
 import { obtenerFrentesTrabajo } from "../services/frenteService";
 import "../styles/AsignarTrabajadores.css";
 

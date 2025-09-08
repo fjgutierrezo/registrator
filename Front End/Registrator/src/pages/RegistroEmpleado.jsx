@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import employeeService from '../services/employeeService';
+import employeeService from '../services/empleadoService';
 import '../styles/RegistroEmpleado.css';
 
 const RegistroEmpleado = () => {
@@ -32,25 +32,42 @@ const RegistroEmpleado = () => {
     email: '',
     password: '',
     rol: '',
+    // 👇 Nuevos campos de nómina
+    salario: '',
+    bonificacion: '',
+    auxilioTransporte: '',
   });
 
   const [mensaje, setMensaje] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmpleado({ ...empleado, [name]: value });
+    setEmpleado((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const toNumberOrNull = (v) => {
+    if (v === null || v === undefined) return null;
+    const s = String(v).replaceAll(',', '.').trim();
+    if (s === '') return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const nuevo = await employeeService.create({
+      await employeeService.create({
         ...empleado,
-        diaNacimiento: parseInt(empleado.diaNacimiento),
-        mesNacimiento: parseInt(empleado.mesNacimiento),
-        anioNacimiento: parseInt(empleado.anioNacimiento),
-        numeroHijos: parseInt(empleado.numeroHijos),
+        diaNacimiento: parseInt(empleado.diaNacimiento, 10),
+        mesNacimiento: parseInt(empleado.mesNacimiento, 10),
+        anioNacimiento: parseInt(empleado.anioNacimiento, 10),
+        numeroHijos: parseInt(empleado.numeroHijos || 0, 10),
+        // 👇 enviar como números (el backend los mapea a BigDecimal)
+        salario: toNumberOrNull(empleado.salario),
+        bonificacion: toNumberOrNull(empleado.bonificacion),
+        auxilioTransporte: toNumberOrNull(empleado.auxilioTransporte),
       });
+
       setMensaje(`✅ Empleado ${empleado.primerNombre} ${empleado.primerApellido} registrado correctamente.`);
       setEmpleado({
         primerNombre: '', segundoNombre: '', primerApellido: '', segundoApellido: '',
@@ -58,11 +75,14 @@ const RegistroEmpleado = () => {
         direccion: '', barrio: '', arl: '', eps: '', fondoPensiones: '', fondoCesantias: '',
         tallaCamisa: '', tallaPantalon: '', tallaCalzado: '', numeroHijos: '', tipoSangre: '',
         banco: '', numeroCuenta: '', tipoCuenta: '', contactoEmergencia: '',
-        telefonoContactoEmergencia: '', email: '', password: '', rol: ''
+        telefonoContactoEmergencia: '', email: '', password: '', rol: '',
+        // 👇 limpiar nuevos campos
+        salario: '', bonificacion: '', auxilioTransporte: '',
       });
     } catch (error) {
       console.error(error);
-      setMensaje('❌ Error al registrar empleado.');
+      const msg = error?.response?.data || '❌ Error al registrar empleado.';
+      setMensaje(msg);
     }
   };
 
@@ -74,7 +94,7 @@ const RegistroEmpleado = () => {
           {/* Datos Personales */}
           <label>Primer Nombre</label>
           <input name="primerNombre" value={empleado.primerNombre} onChange={handleChange} required />
-          
+
           <label>Segundo Nombre</label>
           <input name="segundoNombre" value={empleado.segundoNombre} onChange={handleChange} />
 
@@ -167,6 +187,43 @@ const RegistroEmpleado = () => {
             <option value="JEFE_OBRA">Jefe de Obra</option>
             <option value="RRHH">RRHH</option>
           </select>
+
+          {/* ======= Datos de nómina ======= */}
+          <hr />
+          <h3>Datos de nómina</h3>
+
+          <label>Salario (COP)</label>
+          <input
+            type="number"
+            step="0.01"
+            inputMode="decimal"
+            name="salario"
+            value={empleado.salario}
+            onChange={handleChange}
+            placeholder="Ej: 1600000.00"
+          />
+
+          <label>Bonificación (COP)</label>
+          <input
+            type="number"
+            step="0.01"
+            inputMode="decimal"
+            name="bonificacion"
+            value={empleado.bonificacion}
+            onChange={handleChange}
+            placeholder="Ej: 200000.00"
+          />
+
+          <label>Auxilio de transporte (COP)</label>
+          <input
+            type="number"
+            step="0.01"
+            inputMode="decimal"
+            name="auxilioTransporte"
+            value={empleado.auxilioTransporte}
+            onChange={handleChange}
+            placeholder="Ej: 162000.00"
+          />
 
           <button type="submit">Registrar</button>
         </form>

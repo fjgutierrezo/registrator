@@ -1,3 +1,4 @@
+// src/pages/Login.jsx
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
@@ -16,6 +17,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!cedula || !password) {
       setError("Todos los campos son obligatorios.");
@@ -23,28 +25,42 @@ function Login() {
     }
 
     try {
+      // Espera: { message, usuario: { id, email, cedula, rol, nombreCompleto } }
       const data = await loginUsuario(cedula, password);
+      const u = data?.usuario;
 
-      if (data.success) {
-        login({
-          nombre: data.nombre,
-          rol: data.rol.toLowerCase(),
-          cedula: data.cedula,
-        });
-
-        const rutas = {
-          trabajador: "/registro-diario",
-          capataz: "/control-diario-Pendiente",
-          jefe: "/validacion-jefe",
-          rrhh: "/nomina",
-        };
-
-        navigate(rutas[data.rol.toLowerCase()]);
-      } else {
-        setError(data.message || "Credenciales incorrectas.");
+      if (!u) {
+        setError(data?.error || "Respuesta inesperada del servidor.");
+        return;
       }
-    } catch (error) {
-      setError("No se pudo conectar con el servidor.");
+
+      // Normalizamos rol para el front
+      const rolNorm = (u.rol || "").toLowerCase().replace(/\s+/g, "_");
+
+      // Guardar en AuthContext lo que usas en el resto de la app
+      login({
+        id: u.id,
+        nombre: u.nombreCompleto,
+        rol: rolNorm,            // p.ej. "capataz", "jefe_obra", "trabajador"
+        cedula: u.cedula,
+        email: u.email || "",
+      });
+
+      // Rutas según rol (ajusta si tus paths exactos difieren)
+      const rutas = {
+        trabajador: "/registro-diario",
+        capataz: "/control-diario-pendiente",  // ojo: en tu ejemplo tenías "Pendiente" con mayúscula
+        jefe_obra: "/validacion-jefe",
+        jefe: "/validacion-jefe",         // alias por si viene "Jefe"
+        rrhh: "/nomina",
+        recursos_humanos: "/nomina",
+      };
+
+      const destino = rutas[rolNorm] || "/";
+      navigate(destino);
+    } catch (err) {
+      // authService lanza Error con .message ya amigable
+      setError(err?.message || "No se pudo conectar con el servidor.");
     }
   };
 

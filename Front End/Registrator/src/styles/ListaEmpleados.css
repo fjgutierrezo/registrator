@@ -1,192 +1,192 @@
-/* ListaEmpleados.css */
-
 .lista-empleados-page {
-    min-height: 100vh;
-    background-color: var(--color-bg);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2rem;
-  }
-  
-  .lista-empleados-card {
-    background-color: var(--color-card);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    max-width: 900px;
-    border: 2px solid var(--color-primary);
-  }
-  
-  .lista-empleados-card h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-  }
-  
-  .tabla-empleados {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .tabla-empleados th,
-  .tabla-empleados td {
-    padding: 0.75rem;
-    border: 1px solid var(--color-border);
-    text-align: left;
-    color: var(--color-text);
-  }
-  
-  .tabla-empleados th {
-    background-color: var(--color-primary);
-    color: var(--color-btn-text);
-  }
-  .lista-empleados-tabla {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .empleado-row {
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: var(--color-bg);
-  }
-  
-  .empleado-resumen {
-    padding: 1rem;
-    background-color: var(--color-card);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-weight: bold;
-    color: var(--color-text);
-  }
-  
-  .empleado-resumen:hover {
-    background-color: var(--color-primary);
-    color: var(--color-btn-text);
-  }
-  
-  .empleado-detalle {
-    padding: 1rem;
-    background-color: var(--color-card);
-    color: var(--color-text);
-    border-top: 1px solid var(--color-border);
-  }
-  
-  .empleado-nombre {
-    flex: 1;
-  }
-  
-  .empleado-rol {
-    font-size: 0.9rem;
-    color: var(--color-primary);
-  }
-  .empleado-botones {
-    display: flex;
-    gap: 0.5rem;
-    margin-left: 1rem;
-  }
-  
-  .empleado-botones button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0 6px;
-    color: var(--color-primary);
-    transition: color 0.3s ease;
-  }
-  
-  .empleado-botones button:hover {
-    color: var(--color-btn-hover);
-  }
-  
-  .btn-eliminar:hover {
-    color: #e74c3c; /* rojo para eliminar */
-  }
-  /* Contenedor detalle (ya lo tienes, sólo lo ajustamos un poco si quieres) */
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.lista-empleados-card {
+  background-color: var(--color-card);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 900px;
+  border: 2px solid var(--color-primary);
+}
+
+.lista-empleados-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+
+.tabla-empleados {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-empleados th,
+.tabla-empleados td {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  color: var(--color-text);
+}
+
+.tabla-empleados th {
+  background-color: var(--color-primary);
+  color: var(--color-btn-text);
+}
+
+.lista-empleados-tabla {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.empleado-row {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+.empleado-resumen {
+  padding: 1rem;
+  background-color: var(--color-card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--color-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* 🔄 Hover ANTES estaba amarillo fuerte; ahora gris suave */
+.empleado-resumen:hover {
+  background-color: rgba(0, 0, 0, 0.06); /* gris clarito */
+  color: var(--color-text);
+}
+
+/* Si prefieres usar variables, descomenta y ajusta:
+.empleado-resumen:hover {
+  background-color: var(--color-border); 
+}
+*/
+
 .empleado-detalle {
-    padding: 1rem;
-    background-color: var(--color-card);
-    color: var(--color-text);
-    border-top: 1px solid var(--color-border);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  /* Estilos para labels */
-  .empleado-detalle label {
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: 0.2rem;
-    display: block;
-  }
-  
-  /* Inputs y selects dentro de detalle */
-  .empleado-detalle input,
-  .empleado-detalle select {
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    font-size: 1rem;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    width: 100%;
-    transition: border-color 0.3s ease;
-  }
-  
-  .empleado-detalle input:focus,
-  .empleado-detalle select:focus {
-    border-color: var(--color-primary);
-    outline: none;
-  }
-  
-  /* Contenedor para inputs de fecha (día, mes, año) */
-  .empleado-detalle > div[style*="flex"] {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Botones Guardar y Cancelar */
-  .empleado-detalle button {
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 1rem;
-  }
-  
-  .empleado-detalle button:first-of-type {
-    background-color: var(--color-primary);
-    color: var(--color-btn-text);
-  }
-  
-  .empleado-detalle button:first-of-type:hover {
-    background-color: var(--color-btn-hover);
-  }
-  
-  .empleado-detalle button:last-of-type {
-    background-color: #ccc;
-    color: #333;
-  }
-  
-  .empleado-detalle button:last-of-type:hover {
-    background-color: #999;
-  }
-  
-  /* Para alinear los botones en línea */
-  .empleado-detalle > div:last-of-type {
-    margin-top: 1rem;
-    display: flex;
-    gap: 0.5rem;
-  }
-  
+  padding: 1rem;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.empleado-nombre {
+  flex: 1;
+}
+
+.empleado-rol {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+}
+
+.empleado-botones {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.empleado-botones button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 6px;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
+}
+
+.empleado-botones button:hover {
+  color: var(--color-btn-hover);
+}
+
+.btn-eliminar:hover {
+  color: #e74c3c; /* rojo para eliminar */
+}
+
+/* Labels */
+.empleado-detalle label {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+  display: block;
+}
+
+/* Inputs y selects */
+.empleado-detalle input,
+.empleado-detalle select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.empleado-detalle input:focus,
+.empleado-detalle select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* Contenedor para inputs de fecha (día, mes, año) */
+.empleado-detalle > div[style*="flex"] {
+  display: flex;
+  gap: 10px;
+}
+
+/* Botones Guardar y Cancelar */
+.empleado-detalle button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 1rem;
+}
+
+.empleado-detalle button:first-of-type {
+  background-color: var(--color-primary);
+  color: var(--color-btn-text);
+}
+
+.empleado-detalle button:first-of-type:hover {
+  background-color: var(--color-btn-hover);
+}
+
+.empleado-detalle button:last-of-type {
+  background-color: #ccc;
+  color: #333;
+}
+
+.empleado-detalle button:last-of-type:hover {
+  background-color: #999;
+}
+
+/* Alinear botones */
+.empleado-detalle > div:last-of-type {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}

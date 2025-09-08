@@ -76,7 +76,7 @@ public class JornadaController {
         if (j.getEstado() != JornadaEstado.CERRADA) {
             return ResponseEntity.badRequest().body("La jornada debe estar CERRADA para aprobarse");
         }
-        j.setAprobacionEstado(AprobacionEstado.APROBADO);
+        j.setAprobacionEstado(AprobacionEstado.APROBADO_CAPATAZ);
         j.setAprobadoPorCedula(aprobadoPorCedula);
         j.setAprobadoPorNombre(aprobadoPorNombre);
         j.setAprobadoEn(OffsetDateTime.now(ZoneOffset.UTC));

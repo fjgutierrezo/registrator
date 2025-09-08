@@ -11,8 +11,19 @@ import {
 
 const containerStyle = { width: "100%", height: "400px" };
 const centerBogota = { lat: 41.5632, lng: 2.0089 };
+
 const normalize = (s = "") =>
   s.toString().trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+// 🔒 Asegura que lo que llegue se convierta en array
+const asArray = (x) => {
+  if (Array.isArray(x)) return x;
+  if (!x) return [];
+  if (Array.isArray(x.data)) return x.data;
+  if (Array.isArray(x.content)) return x.content;
+  if (Array.isArray(x.resultado)) return x.resultado;
+  return [];
+};
 
 function CrearFrente() {
   const { usuario } = useContext(AuthContext);
@@ -33,14 +44,18 @@ function CrearFrente() {
   const [modalVisible, setModalVisible] = useState(false);
   const [accionPendiente, setAccionPendiente] = useState(null);
 
-  const { isLoaded } = useJsApiLoader({
+  // ⚠️ Mantengo tu uso actual (clave inline) para no romper nada.
+  // Te recomiendo habilitar facturación en GCP para evitar BillingNotEnabledMapError.
+  const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCd9axN-90rSSTdZE97zYjXcz_yYydF_gk",
   });
 
   const cargarFrentes = async () => {
     try {
       const data = await obtenerFrentesTrabajo();
-      setFrentes(data);
+      // data puede ser axios resp (con .data) o el array directo
+      const arr = asArray(data?.data ?? data);
+      setFrentes(arr);
     } catch (error) {
       console.error("Error al cargar frentes:", error);
       setFrentes([]);
@@ -57,14 +72,16 @@ function CrearFrente() {
       setFrentesFiltrados([]);
       return;
     }
+    const fuente = asArray(frentes);
     setFrentesFiltrados(
-      frentes.filter(
-        (f) => normalize(f.nombre).includes(filtro) || String(f.id).includes(filtro)
+      fuente.filter(
+        (f) => normalize(f?.nombre ?? "").includes(filtro) || String(f?.id ?? "").includes(filtro)
       )
     );
   }, [busquedaFrente, frentes]);
 
   const handleClickMapa = (e) => {
+    if (!e || !e.latLng) return;
     setPosicion({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
@@ -89,7 +106,9 @@ function CrearFrente() {
 
     try {
       const response = await crearFrenteTrabajo(frente);
-      setMensaje(`✅ Frente número ${response.id} creado con éxito.`);
+      // soporta axios ({data:{id}}) o fetch directo ({id})
+      const nuevoId = response?.data?.id ?? response?.id ?? "—";
+      setMensaje(`✅ Frente número ${nuevoId} creado con éxito.`);
       setNombre("");
       setCentroCosto("");
       setPosicion(null);
@@ -135,6 +154,20 @@ function CrearFrente() {
       console.error("Error al cambiar estado:", error);
     }
   };
+
+  if (loadError) {
+    return (
+      <div className="crear-frente-container">
+        <div className="crear-frente-card">
+          <h2>Crear Frente de Trabajo</h2>
+          <p className="crear-frente-mensaje">
+            ⚠️ Error cargando Google Maps. Verifica que tu proyecto de Google Cloud tenga
+            <strong> facturación habilitada</strong> y que la API <em>Maps JavaScript API</em> esté activa.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isLoaded) return <p className="crear-frente-container">Cargando mapa...</p>;
 
@@ -182,15 +215,15 @@ function CrearFrente() {
                 <Marker position={posicion} />
                 <Circle
                   center={posicion}
-                  radius={radio}
+                  radius={Number(radio) || 0}
                   options={{ strokeColor: "#f8c400" }}
                 />
               </>
             )}
 
             {/* Marcadores de frentes activos existentes */}
-            {frentes
-              .filter((f) => f.estado === "ACTIVO")
+            {asArray(frentes)
+              .filter((f) => f?.estado === "ACTIVO")
               .map((f) => (
                 <React.Fragment key={f.id}>
                   <Marker
@@ -199,7 +232,7 @@ function CrearFrente() {
                   />
                   <Circle
                     center={{ lat: f.latitudCentro, lng: f.longitudCentro }}
-                    radius={f.radioMetros}
+                    radius={Number(f.radioMetros) || 0}
                     options={{ strokeColor: "#4285F4", fillOpacity: 0.1 }}
                   />
                 </React.Fragment>

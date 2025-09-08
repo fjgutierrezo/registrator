@@ -1,6 +1,8 @@
 package com.TMF.registrator.dto;
 import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
+
 public class RegistroEmpleadoRequest {
     @NotBlank
     private String primerNombre;
@@ -84,6 +86,14 @@ public class RegistroEmpleadoRequest {
 
     @NotBlank
     private String rol;
+    @DecimalMin(value = "0.00", message = "El salario no puede ser negativo")
+    private BigDecimal salario;
+
+    @DecimalMin(value = "0.00", message = "La bonificación no puede ser negativa")
+    private BigDecimal bonificacion;
+
+    @DecimalMin(value = "0.00", message = "El auxilio de transporte no puede ser negativo")
+    private BigDecimal auxilioTransporte;
     public String getPrimerNombre() {
         return primerNombre;
     }
@@ -307,4 +317,12 @@ public class RegistroEmpleadoRequest {
     public void setRol(String rol) {
         this.rol = rol;
     }
+    public BigDecimal getSalario() { return salario; }
+    public void setSalario(BigDecimal salario) { this.salario = salario; }
+
+    public BigDecimal getBonificacion() { return bonificacion; }
+    public void setBonificacion(BigDecimal bonificacion) { this.bonificacion = bonificacion; }
+
+    public BigDecimal getAuxilioTransporte() { return auxilioTransporte; }
+    public void setAuxilioTransporte(BigDecimal auxilioTransporte) { this.auxilioTransporte = auxilioTransporte; }
 }

@@ -1,88 +1,250 @@
 /* NominaRRHH.css */
 
+/* ===== Layout base ===== */
 .nomina-page {
-    background-color: var(--color-bg);
-    min-height: 100vh;
-    padding: 2.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.nomina-card {
+  background-color: var(--color-card);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--color-primary);
+  width: 100%;
+  max-width: 1100px;
+  overflow-x: auto;
+}
+
+.nomina-card h2 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  color: var(--color-primary);
+}
+
+/* Filtro de mes */
+.nomina-card input[type="month"] {
+  background-color: var(--color-card);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+
+/* ===== Tabla principal ===== */
+.nomina-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-card);
+}
+
+.nomina-table th,
+.nomina-table td {
+  padding: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.nomina-table th {
+  background-color: var(--color-bg);
+  font-weight: 600;
+}
+
+/* Nombre clicable */
+.nomina-nombre {
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.nomina-nombre:hover {
+  text-decoration: underline;
+}
+
+/* Hover de fila (gris suave) */
+.nomina-table tbody tr:hover {
+  background-color: rgba(128, 128, 128, 0.12);
+  transition: background-color 0.2s ease;
+}
+
+/* Botón “link” para valor a pagar */
+.btn-link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 6px; /* para que el hover se vea con esquinas suaves */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-link:hover {
+  background-color: rgba(128, 128, 128, 0.15); /* 👈 gris suave */
+  color: var(--color-text); /* mantiene texto legible */
+  text-decoration: underline;
+}
+
+
+/* ===== Detalle desplegable ===== */
+.detalle-tr {
+  background-color: var(--color-bg);
+  font-size: 0.95rem;
+}
+
+.detalle-tr td {
+  padding: 0.75rem 1rem;
+}
+
+.detalle-nomina {
+  width: 100%;
+  margin-top: 0.5rem;
+  border-collapse: collapse;
+  background-color: var(--color-card);
+  font-size: 0.95rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.detalle-nomina th,
+.detalle-nomina td {
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+  color: var(--color-text);
+}
+
+.detalle-nomina th {
+  background-color: var(--color-bg);
+  font-weight: 600;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.modal-card {
+  width: min(900px, 100%);
+  background: var(--color-card);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg);
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: 1.05rem;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.modal-close:hover {
+  color: var(--color-btn-hover);
+}
+
+.modal-body {
+  padding: 1rem 1.2rem;
+}
+
+/* Grid para columnas del modal */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 800px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
   }
-  
-  .nomina-card {
-    background-color: var(--color-card);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    border: 2px solid var(--color-primary);
-    width: 100%;
-    max-width: 1100px;
-    overflow-x: auto;
-  }
-  
-  .nomina-card h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-  }
-  
-  .nomina-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .nomina-table th,
-  .nomina-table td {
-    padding: 0.75rem;
-    text-align: center;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text);
-  }
-  
-  .nomina-table th {
-    background-color: var(--color-bg);
-    font-weight: 600;
-  }
-  
-  .nomina-nombre {
-    color: var(--color-primary);
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .nomina-nombre:hover {
-    text-decoration: underline;
-  }
-  
-  /* Detalle desplegable */
-  .detalle-tr {
-    background-color: var(--color-bg);
-    font-size: 0.9rem;
-  }
-  
-  .detalle-tr td {
-    padding: 0.5rem 1rem;
-  }
-  .detalle-nomina {
-    width: 100%;
-    margin-top: 0.5rem;
-    border-collapse: collapse;
-    background-color: var(--color-card);
-    font-size: 0.95rem;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .detalle-nomina th,
-  .detalle-nomina td {
-    padding: 0.6rem;
-    border-bottom: 1px solid var(--color-border);
-    text-align: center;
-    color: var(--color-text);
-  }
-  
-  .detalle-nomina th {
-    background-color: var(--color-bg);
-    font-weight: 600;
-  }
-  
+}
+
+.modal-body h4 {
+  margin: 0.25rem 0 0.5rem;
+  color: var(--color-primary);
+}
+
+.modal-body ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 1rem 0;
+}
+
+.modal-body li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+/* Footer del modal */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: 0.9rem 1.2rem;
+}
+
+/* Botón sólido estándar (coherente con otros) */
+.btn {
+  background-color: var(--color-primary);
+  color: var(--color-btn-text);
+  border: none;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-btn-hover);
+}
+
+/* ===== Accesibilidad / estados ===== */
+.nomina-table td[colspan="4"],
+.detalle-nomina td[colspan="4"] {
+  text-align: left;
+}
+
+.nomina-table td:empty::after {
+  content: "—";
+  color: var(--color-border);
+}

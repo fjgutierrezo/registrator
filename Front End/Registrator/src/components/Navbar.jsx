@@ -16,6 +16,8 @@ function Navbar() {
       { path: "/nomina", label: "Nómina" },
       { path: "/registro-empleado", label: "Registro de Empleados" },
       { path: "/lista-empleados", label: "Ver Empleados" },
+      { path: "/crear-frente", label: "Crear Frente" },
+      { path: "/trabajador-frente", label: "Registrar Trabajador" }, 
     ],
     trabajador: [{ path: "/registro-diario", label: "Registro Diario" }],
     capataz: [

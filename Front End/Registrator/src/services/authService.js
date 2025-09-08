@@ -1,10 +1,21 @@
-// src/services/authService.js
 import axios from "axios";
+axios.defaults.withCredentials = true; 
 
-export const loginUsuario = async (cedula, password) => {
-  const response = await axios.post("http://localhost:8080/api/login", {
-    cedula,
-    password,
-  });
-  return response.data;
-};
+export async function loginUsuario(cedula, password) {
+  try {
+    const res = await axios.post(
+      "http://localhost:8080/auth/login",
+      { cedula, password },
+      {
+        withCredentials: true, // 👈 mantiene la sesión (JSESSIONID)
+        headers: { "Content-Type": "application/json" }
+      }
+    );
+    return res.data;
+  } catch (err) {
+    if (err.response) {
+      throw new Error(err.response.data.error || "Error de login");
+    }
+    throw new Error("No se pudo conectar con el servidor");
+  }
+}

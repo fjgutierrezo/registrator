@@ -1,5 +1,6 @@
 // src/services/capatazService.js
 import axios from "axios";
+axios.defaults.withCredentials = true; 
 
 const API = "http://localhost:8080/api/capataz";
 

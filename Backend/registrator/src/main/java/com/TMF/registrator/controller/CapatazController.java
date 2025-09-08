@@ -5,6 +5,8 @@ import com.TMF.registrator.service.CapatazService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/capataz")
 public class CapatazController {
@@ -29,9 +31,9 @@ public class CapatazController {
 
     // Validar jornada (con ediciones opcionales)
     @PutMapping("/jornadas/{id}/validar")
-    public ResponseEntity<?> validar(@PathVariable Long id, @RequestBody CapatazValidarRequest req) {
-        service.validarJornada(id, req);
-        return ResponseEntity.ok(java.util.Map.of("ok", true));
+    public ResponseEntity<?> validar(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        service.validarJornada(id, body.get("horaEntradaEditadaISO"), body.get("horaSalidaEditadaISO"), body.get("motivoEdicion"));
+        return ResponseEntity.ok(Map.of("ok", true));
     }
 
     // Quitar validación (vuelve a EN_APROBACION)

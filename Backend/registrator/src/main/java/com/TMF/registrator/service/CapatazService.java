@@ -6,9 +6,12 @@ import com.TMF.registrator.dto.CapatazValidarRequest;
 import com.TMF.registrator.model.AprobacionEstado;
 import com.TMF.registrator.model.Jornada;
 import com.TMF.registrator.model.JornadaEstado;
+import com.TMF.registrator.model.Usuario;
 import com.TMF.registrator.repository.FrenteTrabajoRepository;
 import com.TMF.registrator.repository.JornadaRepository;
+import com.TMF.registrator.security.AuthUtils;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -21,11 +24,13 @@ public class CapatazService {
 
     private final JornadaRepository jornadaRepo;
     private final FrenteTrabajoRepository frenteRepo;
+    private final AuthUtils authUtils;
 
     public CapatazService(JornadaRepository jornadaRepo,
-                          FrenteTrabajoRepository frenteRepo) {
+                          FrenteTrabajoRepository frenteRepo,AuthUtils authUtils) {
         this.jornadaRepo = jornadaRepo;
         this.frenteRepo = frenteRepo;
+        this.authUtils = authUtils;
     }
 
     /* ==========================
@@ -45,7 +50,7 @@ public class CapatazService {
         LocalDate ini = firstDayOfCurrentMonthUTC();
         LocalDate fin = lastDayOfCurrentMonthUTC();
         List<Jornada> js = jornadaRepo.findByFechaBetweenAndAprobacionEstado(
-                ini, fin, AprobacionEstado.APROBADO
+                ini, fin, AprobacionEstado.APROBADO_CAPATAZ
         );
         return agruparPorDia(js);
     }
@@ -104,36 +109,39 @@ public class CapatazService {
        ========================== */
 
     // Validar una jornada (opcionalmente con edición de horas)
-    public void validarJornada(Long id, CapatazValidarRequest req) {
-        Jornada j = jornadaRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Jornada no existe"));
-
+    public void validarJornada(Long id, String horaEntradaEditadaISO, String horaSalidaEditadaISO, String motivoEdicion) {
+        Jornada j = jornadaRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Jornada no existe"));
         if (j.getEstado() != JornadaEstado.CERRADA) {
             throw new IllegalStateException("La jornada debe estar CERRADA para validar");
         }
 
-        boolean editaEntrada = !isBlank(req.getHoraEntradaEditadaISO());
-        boolean editaSalida  = !isBlank(req.getHoraSalidaEditadaISO());
-
+        boolean editaEntrada = horaEntradaEditadaISO != null && !horaEntradaEditadaISO.isBlank();
+        boolean editaSalida  = horaSalidaEditadaISO  != null && !horaSalidaEditadaISO.isBlank();
         if (editaEntrada || editaSalida) {
-            if (isBlank(req.getMotivoEdicion())) {
-                throw new IllegalArgumentException("Motivo de edición es obligatorio cuando se modifican horas");
+            if (motivoEdicion == null || motivoEdicion.isBlank()) {
+                throw new IllegalArgumentException("Motivo de edición es obligatorio");
             }
-            if (editaEntrada) {
-                j.setHoraEntradaEditada(OffsetDateTime.parse(req.getHoraEntradaEditadaISO()));
-            }
-            if (editaSalida) {
-                j.setHoraSalidaEditada(OffsetDateTime.parse(req.getHoraSalidaEditadaISO()));
-            }
-            j.setMotivoEdicionCapataz(req.getMotivoEdicion().trim());
+            if (editaEntrada) j.setHoraEntradaEditada(OffsetDateTime.parse(horaEntradaEditadaISO));
+            if (editaSalida)  j.setHoraSalidaEditada(OffsetDateTime.parse(horaSalidaEditadaISO));
+            j.setMotivoEdicionCapataz(motivoEdicion.trim());
         }
 
-        j.setAprobacionEstado(AprobacionEstado.APROBADO);
-        j.setAprobadoPorCedula(req.getAprobadoPorCedula());
-        j.setAprobadoPorNombre(req.getAprobadoPorNombre());
+        Usuario u = authUtils.currentUserOrThrow();
+        j.setAprobacionEstado(AprobacionEstado.APROBADO_CAPATAZ);
+        j.setAprobadoPorCedula(u.getCedula());
+        j.setAprobadoPorNombre( (u.getPrimerNombre() + " " + u.getPrimerApellido()).trim() );
         j.setAprobadoEn(OffsetDateTime.now(ZoneOffset.UTC));
 
         jornadaRepo.save(j);
+    }
+
+
+    private static String ns(String s){ return s==null? "": s.trim(); }
+    private static String nombre(Usuario u){
+        return ("%s %s %s %s".formatted(
+                ns(u.getPrimerNombre()), ns(u.getSegundoNombre()),
+                ns(u.getPrimerApellido()), ns(u.getSegundoApellido())
+        )).replaceAll("\\s+"," ").trim();
     }
 
     // Quitar validación → vuelve a EN_APROBACION (conserva horas editadas como trazabilidad)
@@ -141,7 +149,7 @@ public class CapatazService {
         Jornada j = jornadaRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Jornada no existe"));
 
-        if (j.getAprobacionEstado() != AprobacionEstado.APROBADO) {
+        if (j.getAprobacionEstado() != AprobacionEstado.APROBADO_CAPATAZ) {
             throw new IllegalStateException("Solo se puede quitar validación a jornadas APROBADAS");
         }
 
