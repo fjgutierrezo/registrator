@@ -75,5 +75,4 @@ public class DataInitializer {
         usuarioRepository.saveAll(empleados);
         System.out.println("✅ Se cargaron 10 empleados automáticamente.");
     }
-}
-*/
+}*/
