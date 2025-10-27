@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true; 
 
 /*const API_URL = "http://localhost:8080/api/trabajadorEnFrente";*/
-const API_URL="registrator.eu-north-1.elasticbeanstalk.com/api/trabajadorEnFrente";
+const API_URL="http://registrator.eu-north-1.elasticbeanstalk.com/api/trabajadorEnFrente";
 
 // 📌 Obtiene todos los trabajadores asignados a un frente específico
 export const listarTrabajadoresPorFrente = async (frenteId) => {
