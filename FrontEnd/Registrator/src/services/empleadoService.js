@@ -2,7 +2,8 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true; 
 
-const API_BASE_URL = 'http://localhost:8080/rrhh/empleados';
+/*const API_BASE_URL = 'http://localhost:8080/rrhh/empleados';*/
+const API_BASE_URL="registrator.eu-north-1.elasticbeanstalk.com/rrhh/empleados";
 
 const employeeService = {
   // Obtener todos los empleados

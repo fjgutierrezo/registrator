@@ -4,7 +4,8 @@ import axios from "axios";
 // Si ya usas cookies/sesiones con Spring Security:
 axios.defaults.withCredentials = true;
 
-const API = "http://localhost:8080/api/rrhh/nomina";
+/*const API = "http://localhost:8080/api/rrhh/nomina";*/
+const API="registrator.eu-north-1.elasticbeanstalk.com/rrhh/nomina";
 
 /**
  * Resumen mensual con valores (devengado, deducciones, neto) por empleado.

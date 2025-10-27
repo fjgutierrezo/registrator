@@ -2,7 +2,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true; 
 
-const API = "http://localhost:8080/api/capataz";
+/*const API = "http://localhost:8080/api/capataz";*/
+const API ="registrator.eu-north-1.elasticbeanstalk.com/api/capataz";
 
 export const getPendientes = async () => {
   const { data } = await axios.get(`${API}/jornadas/pendientes`, { withCredentials: true });

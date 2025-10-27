@@ -2,7 +2,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const API = "http://localhost:8080/api/jefeobra";
+/*const API = "http://localhost:8080/api/jefeobra";*/
+const API="registrator.eu-north-1.elasticbeanstalk.com/api/jefeobra";
 
 export const getPendientesJefe = async () => {
   const r = await axios.get(`${API}/pendientes`, { withCredentials: true });

@@ -2,7 +2,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true; 
 
-const API_URL = "http://localhost:8080/api/jornadas";
+/*const API_URL = "http://localhost:8080/api/jornadas";*/
+const API_URL="registrator.eu-north-1.elasticbeanstalk.com/api/jornadas";
 
 export const getActiva = async (cedula, frenteId) => {
   const res = await axios.get(`${API_URL}/activas`, {
