@@ -5,7 +5,7 @@ export async function loginUsuario(cedula, password) {
   try {
     const res = await axios.post(
       /*"http://localhost:8080/auth/login",*/
-      "https://registrator-env.eba-v7q5tsgm.eu-north-1.elasticbeanstalk.com//auth/login",
+      "https://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com/auth/login",
       { cedula, password },
       {
         withCredentials: true, // 👈 mantiene la sesión (JSESSIONID)

@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true; 
 
 /*const API_URL = "http://localhost:8080/api/jornadas";*/
-const API_URL="https://registrator-env.eba-v7q5tsgm.eu-north-1.elasticbeanstalk.com//api/jornadas";
+const API_URL="https://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com/api/jornadas";
 
 export const getActiva = async (cedula, frenteId) => {
   const res = await axios.get(`${API_URL}/activas`, {

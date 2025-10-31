@@ -2,7 +2,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 /*const API_URL = "http://localhost:8080/api/frentes";*/
-const API_URL="https://registrator-env.eba-v7q5tsgm.eu-north-1.elasticbeanstalk.com//api/frentes";
+const API_URL="https://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com/api/frentes";
 
 // Crear frente
 export const crearFrenteTrabajo = async (frenteData) => {

@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 /*const API = "http://localhost:8080/api/jefeobra";*/
-const API="hhttps://registrator-env.eba-v7q5tsgm.eu-north-1.elasticbeanstalk.com//api/jefeobra";
+const API="https://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com/api/jefeobra";
 
 export const getPendientesJefe = async () => {
   const r = await axios.get(`${API}/pendientes`, { withCredentials: true });

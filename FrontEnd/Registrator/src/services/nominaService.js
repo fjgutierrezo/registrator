@@ -5,7 +5,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 /*const API = "http://localhost:8080/api/rrhh/nomina";*/
-const API="https://registrator-env.eba-v7q5tsgm.eu-north-1.elasticbeanstalk.com/rrhh/nomina";
+const API="https://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com/rrhh/nomina";
 
 /**
  * Resumen mensual con valores (devengado, deducciones, neto) por empleado.
