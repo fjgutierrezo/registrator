@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
 import { ThemeContext } from "../utils/ThemeContext";
 import "../styles/Navbar.css";
+import axios from "axios";
+
 
 function Navbar() {
   const { usuario, logout } = useContext(AuthContext);
@@ -33,10 +35,21 @@ function Navbar() {
     ],
   };
 
-  const cerrarSesion = () => {
-    logout();
-    navigate("/");
+  const cerrarSesion = async () => {
+    try {
+      await axios.post(
+        "http://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+    } catch (e) {
+      console.warn("Error cerrando sesión:", e);
+    } finally {
+      logout();
+      navigate("/");
+    }
   };
+  
 
   return (
     <nav className="navbar">
