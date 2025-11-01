@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/frentes")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:*","http://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com"}, allowCredentials = "true")
 public class FrenteTrabajoController {
 
     private final FrenteTrabajoService service;

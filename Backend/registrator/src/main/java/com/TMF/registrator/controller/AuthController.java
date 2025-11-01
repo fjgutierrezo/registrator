@@ -12,13 +12,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:*","http://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com"}, allowCredentials = "true")
 public class AuthController {
 
     private final UsuarioRepository usuarioRepo;

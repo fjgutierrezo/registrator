@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/trabajadorEnFrente")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:*","http://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com"}, allowCredentials = "true")
 public class TrabajadorEnFrenteController {
 
     private final TrabajadorEnFrenteService service;
