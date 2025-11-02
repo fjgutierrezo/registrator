@@ -106,7 +106,7 @@ const RegistroEmpleado = () => {
 
           {/* Fecha Nacimiento */}
           <label>Fecha de Nacimiento (Día / Mes / Año)</label>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="fecha-nacimiento-group">
             <input type="number" name="diaNacimiento" placeholder="Día" value={empleado.diaNacimiento} onChange={handleChange} required />
             <input type="number" name="mesNacimiento" placeholder="Mes" value={empleado.mesNacimiento} onChange={handleChange} required />
             <input type="number" name="anioNacimiento" placeholder="Año" value={empleado.anioNacimiento} onChange={handleChange} required />

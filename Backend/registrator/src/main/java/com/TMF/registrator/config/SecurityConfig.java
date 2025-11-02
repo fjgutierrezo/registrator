@@ -25,14 +25,18 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔹 Configuración CORS explícita (elimina necesidad de CrossOrigin en controladores)
+    // 🔹 Configuración CORS explícita
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowedOriginPatterns(List.of(
                 "http://localhost:*",
                 "http://127.0.0.1:*",
-                "http://registrator-frontend.s3-website.eu-north-1.amazonaws.com"
+                "http://registrator-frontend.s3-website.eu-north-1.amazonaws.com",
+                "https://drxteas5ra78l.cloudfront.net", // 👈 añade tu dominio CloudFront
+                "http://registraor-env.eba-23gfuipt.eu-north-1.elasticbeanstalk.com",
+                "http://*.elasticbeanstalk.com",
+                "https://registrator-frontend.s3-website.eu-north-1.amazonaws.com"
         ));
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
@@ -46,24 +50,36 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // ⚙️ CORS debe ir primero
                 .cors(Customizer.withDefaults())
-                // 🚫 Desactivar CSRF
                 .csrf(csrf -> csrf.disable())
-                // 🧠 Aceptar solicitudes OPTIONS globalmente
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // ⚙️ Permitir recursos estáticos del frontend
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/favicon.ico",
+                                "/logo*.png",
+                                "/Logo*.png",
+                                "/vite.svg",
+                                "/manifest.json",
+                                "/assets/**",
+                                "/static/**"
+                        ).permitAll()
+                        // ⚙️ Endpoints públicos
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/capataz/**").hasAnyRole("CAPATAZ", "JEFE")
-                        .requestMatchers("/api/jefeobra/**").hasAnyRole("JEFE_OBRA", "JEFE")
+                        // ⚙️ Permitir preflight OPTIONS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // ⚙️ Cualquier otra ruta requiere autenticación
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .securityContext(sc -> sc.requireExplicitSave(false))
-                // 🧩 Opción útil para depurar (permite probar sin login mientras tanto)
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(form -> form.disable());
 
         return http.build();
     }
+
+
 }

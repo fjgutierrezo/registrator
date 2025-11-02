@@ -4,20 +4,22 @@ import com.TMF.registrator.dto.RegistroEmpleadoRequest;
 import com.TMF.registrator.model.Usuario;
 import com.TMF.registrator.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.http.ResponseEntity;
-
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder; // <-- agregado
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<Usuario> buscarPorEmail(String email) {
@@ -25,8 +27,13 @@ public class UsuarioService {
     }
 
     public Usuario guardarUsuario(Usuario usuario) {
+        // Solo codificamos si la contraseña viene sin cifrar
+        if (usuario.getPassword() != null && !usuario.getPassword().startsWith("$2a$")) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
         return usuarioRepository.save(usuario);
     }
+
     public boolean cedulaExiste(String cedula) {
         return usuarioRepository.findByCedula(cedula).isPresent();
     }
@@ -40,6 +47,7 @@ public class UsuarioService {
     public List<Usuario> obtenerTodosLosEmpleados() {
         return usuarioRepository.findAll();
     }
+
     public Optional<Usuario> buscarPorCedula(String cedula) {
         return usuarioRepository.findByCedula(cedula);
     }
@@ -47,6 +55,7 @@ public class UsuarioService {
     public List<Usuario> buscarPorNombreYApellido(String nombre, String apellido) {
         return usuarioRepository.findByPrimerNombreAndPrimerApellido(nombre, apellido);
     }
+
     public ResponseEntity<?> actualizarEmpleado(String cedula, RegistroEmpleadoRequest request) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByCedula(cedula);
 
@@ -89,6 +98,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return ResponseEntity.ok("Empleado actualizado correctamente.");
     }
+
     public String eliminarEmpleadoPorCedula(String cedula) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByCedula(cedula);
         if (usuarioOptional.isPresent()) {
@@ -98,6 +108,8 @@ public class UsuarioService {
             return "Empleado no encontrado con la cédula: " + cedula;
         }
     }
+
+    // Dejamos tu autenticación tal como está por ahora
     public Usuario autenticarUsuario(String cedula, String password) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByCedula(cedula);
         if (usuarioOpt.isPresent()) {
@@ -108,12 +120,8 @@ public class UsuarioService {
         }
         return null;
     }
+
     public List<Usuario> obtenerPorRol(String rol) {
         return usuarioRepository.findByRol(rol);
     }
-
-  /*  public List<Usuario> obtenerTrabajadoresNoAsignados() {
-        return usuarioRepository.findTrabajadoresNoAsignados("Trabajador");
-    }*/
-
 }

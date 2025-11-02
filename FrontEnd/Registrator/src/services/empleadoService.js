@@ -60,10 +60,10 @@ const employeeService = {
     try {
       const response = await axios.get(API_BASE_URL, { withCredentials: true });
       return response.data
-        .filter((empleado) => empleado.rol === "Trabajador")
+        .filter((empleado) => empleado.rol?.toUpperCase() === "TRABAJADOR")
         .map((empleado) => ({
           cedula: empleado.cedula,
-          nombreCompleto: `${empleado.primerNombre} ${empleado.segundoNombre} ${empleado.primerApellido} ${empleado.segundoApellido}`,
+          nombreCompleto: `${empleado.primerNombre} ${empleado.segundoNombre || ""} ${empleado.primerApellido} ${empleado.segundoApellido || ""}`.replace(/\s+/g, " ").trim(),
           frente: empleado.frenteTrabajoId || null
         }));
     } catch (error) {
@@ -71,6 +71,7 @@ const employeeService = {
       return [];
     }
   }
+  
 };
 
 

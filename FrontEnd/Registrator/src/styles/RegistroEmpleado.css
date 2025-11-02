@@ -68,4 +68,16 @@
   .registro-empleado-form button:hover {
     background-color: var(--color-btn-hover);
   }
-  
+  /* Grupo de inputs Día / Mes / Año */
+.fecha-nacimiento-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;              /* <- permite que bajen de línea si no caben */
+}
+
+.fecha-nacimiento-group input {
+  flex: 1;                      /* <- distribuye el espacio de manera uniforme */
+  min-width: 0;                 /* <- evita que se desborde */
+  max-width: 100px;             /* <- tamaño ideal para campos numéricos */
+  box-sizing: border-box;       /* <- asegura que padding y borde no rompan el layout */
+}
